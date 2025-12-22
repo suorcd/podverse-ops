@@ -1,4 +1,4 @@
-# Version: 8
+# Version: 9
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,8 +27,8 @@ spec:
     spec:
       containers:
       - name: web
-        # CHANGED: Updated tag to fix-2 to resolve missing helper function crashes
-        image: ghcr.io/suorcd/podverse-web/podverse-web:5.1.9-fix-2 
+        # CHANGED: Updated tag to fix-3
+        image: ghcr.io/suorcd/podverse-web/podverse-web:5.1.9-fix-3 
         imagePullPolicy: Always
         # CHANGED: Removed manual command/args. The Dockerfile now handles startup ("npm start").
         env:
