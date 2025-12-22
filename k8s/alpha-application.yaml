@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/suorcd/podverse-ops.git
-    targetRevision: feature/k3s
+    targetRevision: feature/k3s01
     path: k8s/alpha
   destination:
     server: https://kubernetes.default.svc

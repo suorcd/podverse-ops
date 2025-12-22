@@ -79,3 +79,12 @@ bash ./k8s/scripts/create_api_secret.sh
 bash ./k8s/scripts/create_workers_secret.sh
 bash ./k8s/scripts/create_firebase_secret.sh
 ```
+
+
+**Apply**
+
+```fish
+for file in podverse-alpha-*-opaque.enc.yaml
+    sops -d $file | kubectl apply -f -
+end
+```
