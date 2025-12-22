@@ -24,12 +24,16 @@ echo ""
 mkdir -p "$(dirname "$OUTPUT_FILE")"
 echo "Generating and encrypting secret..."
 
+TMP_FILE="$(mktemp -t "${SECRET_NAME}.XXXXXX.yaml")"
 kubectl create secret generic "${SECRET_NAME}" \
     --namespace "${NAMESPACE}" \
     --from-literal=AUTH_JWT_SECRET="${AUTH_JWT_SECRET}" \
     --from-literal=MAILER_PASSWORD="${MAILER_PASSWORD}" \
-    --dry-run=client -o yaml | \
+    --dry-run=client -o yaml > "$TMP_FILE"
+
 sops --encrypt --encrypted-regex '^(data|stringData)$' \
-    --input-type=yaml /dev/stdin > "${OUTPUT_FILE}"
+    --input-type=yaml "$TMP_FILE" > "${OUTPUT_FILE}"
+
+rm -f "$TMP_FILE"
 
 echo "SUCCESS: Created ${OUTPUT_FILE}"

@@ -23,12 +23,16 @@ if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
 mkdir -p "$(dirname "$OUTPUT_FILE")"
 echo "Generating and encrypting secret..."
 
+TMP_FILE="$(mktemp -t "${SECRET_NAME}.XXXXXX.yaml")"
 kubectl create secret generic "${SECRET_NAME}" \
     --namespace "${NAMESPACE}" \
     --from-literal=PODCAST_INDEX_AUTH_KEY="${PI_AUTH}" \
     --from-literal=PODCAST_INDEX_SECRET_KEY="${PI_SECRET}" \
-    --dry-run=client -o yaml | \
+    --dry-run=client -o yaml > "$TMP_FILE"
+
 sops --encrypt --encrypted-regex '^(data|stringData)$' \
-    --input-type=yaml /dev/stdin > "${OUTPUT_FILE}"
+    --input-type=yaml "$TMP_FILE" > "${OUTPUT_FILE}"
+
+rm -f "$TMP_FILE"
 
 echo "SUCCESS: Created ${OUTPUT_FILE}"

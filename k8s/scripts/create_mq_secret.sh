@@ -24,6 +24,7 @@ if [ -z "$MQ_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
 mkdir -p "$(dirname "$OUTPUT_FILE")"
 echo "Generating and encrypting secret..."
 
+TMP_FILE="$(mktemp -t "${SECRET_NAME}.XXXXXX.yaml")"
 kubectl create secret generic "${SECRET_NAME}" \
     --namespace "${NAMESPACE}" \
     --from-literal=ARTEMIS_USER="${MQ_USER}" \
@@ -32,8 +33,11 @@ kubectl create secret generic "${SECRET_NAME}" \
     --from-literal=MESSAGE_QUEUE_USERNAME="${MQ_USER}" \
     --from-literal=MESSAGE_QUEUE_PASSWORD="${MQ_PASSWORD}" \
     \
-    --dry-run=client -o yaml | \
+    --dry-run=client -o yaml > "$TMP_FILE"
+
 sops --encrypt --encrypted-regex '^(data|stringData)$' \
-    --input-type=yaml /dev/stdin > "${OUTPUT_FILE}"
+    --input-type=yaml "$TMP_FILE" > "${OUTPUT_FILE}"
+
+rm -f "$TMP_FILE"
 
 echo "SUCCESS: Created ${OUTPUT_FILE}"

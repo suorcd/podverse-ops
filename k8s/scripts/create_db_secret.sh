@@ -23,10 +23,12 @@ echo ""
 
 DEFAULT_DB="postgres"
 DEFAULT_USER="postgres"
-
+echo ""
+echo "--- DBNAME INPUTS ---"
 read -p "POSTGRES_DB [${DEFAULT_DB}]: " INPUT_DB
 POSTGRES_DB="${INPUT_DB:-$DEFAULT_DB}"
-
+echo ""
+echo "--- USERNAME INPUTS ---"
 read -p "POSTGRES_USER [${DEFAULT_USER}]: " INPUT_USER
 POSTGRES_USER="${INPUT_USER:-$DEFAULT_USER}"
 
@@ -58,6 +60,7 @@ echo "Generating and encrypting secret..."
 # We include both the standard POSTGRES_* keys AND the DB_* aliases 
 # so the API and Workers can use this secret directly.
 
+TMP_FILE="$(mktemp -t "${SECRET_NAME}.XXXXXX.yaml")"
 kubectl create secret generic "${SECRET_NAME}" \
     --namespace "${NAMESPACE}" \
     --from-literal=POSTGRES_DB="${POSTGRES_DB}" \
@@ -69,9 +72,12 @@ kubectl create secret generic "${SECRET_NAME}" \
     --from-literal=DB_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
     --from-literal=DB_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
     \
-    --dry-run=client -o yaml | \
+    --dry-run=client -o yaml > "$TMP_FILE"
+
 sops --encrypt --encrypted-regex '^(data|stringData)$' \
-    --input-type=yaml /dev/stdin > "${OUTPUT_FILE}"
+    --input-type=yaml "$TMP_FILE" > "${OUTPUT_FILE}"
+
+rm -f "$TMP_FILE"
 
 echo "----------------------------------------------------"
 echo "SUCCESS: Encrypted secret created at ${OUTPUT_FILE}"
