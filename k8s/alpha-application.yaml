@@ -1,3 +1,7 @@
+# Version: 1
+# Application manifest for Podverse Alpha
+# UPDATE: Added 'recurse: true' to include manifests in subdirectories (api, db, mq, etc.)
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -9,6 +13,11 @@ spec:
     repoURL: https://github.com/suorcd/podverse-ops.git
     targetRevision: feature/k3s01
     path: k8s/alpha
+    
+    # REQUIRED: Tells ArgoCD to look inside subfolders (api/, db/, etc.)
+    directory:
+      recurse: true
+
   destination:
     server: https://kubernetes.default.svc
     # We deploy into the namespace we defined in 00-namespace.yaml
