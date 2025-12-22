@@ -96,3 +96,40 @@ kubectl apply -f k8s/alpha-application.yaml
 
 
 ```
+
+
+# Podverse Alpha - K3s GitOps
+
+This directory contains the Kubernetes manifests for the Podverse Alpha environment, deployed on a 3-node K3s cluster running on Proxmox/NixOS.
+
+## Architecture: App of Apps Pattern
+
+We utilize the **App of Apps** pattern for ArgoCD. 
+
+Instead of manually managing individual resources (Deployments, Services, etc.) or multiple ArgoCD applications, we have one **Root Application** (`alpha-application.yaml`). This root application points to the `apps/` directory, which contains definitions for all other child applications.
+
+**Flow:**
+1.  **Root App** (`alpha-application.yaml`) syncs the `apps/` folder.
+2.  **Child Apps** (e.g., `web.yaml`, `api.yaml`, `db.yaml`) appear in ArgoCD.
+3.  **Resources** (Deployments, Services) defined in the component folders (e.g., `web/`, `api/`) are deployed by their respective Child Apps.
+
+## Directory Structure
+
+```text
+k8s/
+├── alpha-application.yaml      # ROOT APP: The entry point for ArgoCD
+├── alpha/                      # The actual infrastructure and application code
+│   ├── apps/                   # CHILD APPS: ArgoCD Application definitions
+│   │   ├── api.yaml            # -> points to alpha/api
+│   │   ├── common.yaml         # -> points to alpha/common
+│   │   ├── db.yaml             # -> points to alpha/db
+│   │   ├── web.yaml            # -> points to alpha/web
+│   │   └── ... (others)
+│   ├── api/                    # Manifests for API (Deployment, Service, ConfigMap)
+│   ├── common/                 # Shared resources (Namespace, Ingress, TLS)
+│   ├── db/                     # Database manifests
+│   ├── mq/                     # Message Queue manifests
+│   ├── web/                    # Frontend manifests
+│   └── ...
+└── system/
+    └── traefik-config.yaml     # System-level config (if separate)
