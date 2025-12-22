@@ -14,7 +14,9 @@ SECRET_NAME="podverse-${ENVIRONMENT}-workers-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-opaque.enc.yaml"
 
-# --- INPUTS ---
+# ------------------------------------------------------------------
+# INPUTS
+# ------------------------------------------------------------------
 echo "--- PODCAST INDEX API ---"
 read -s -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
 echo ""

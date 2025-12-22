@@ -14,7 +14,9 @@ SECRET_NAME="podverse-${ENVIRONMENT}-workers-firebase-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-firebase-opaque.enc.yaml"
 
-# --- INPUTS ---
+# ------------------------------------------------------------------
+# INPUTS
+# ------------------------------------------------------------------
 echo "Please enter the path to your 'firebase-key.json' file:"
 read -e -p "Path: " FILE_PATH
 

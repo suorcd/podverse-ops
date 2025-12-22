@@ -14,7 +14,9 @@ SECRET_NAME="podverse-${ENVIRONMENT}-api-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-api-opaque.enc.yaml"
 
-# --- INPUTS ---
+# ------------------------------------------------------------------
+# INPUTS
+# ------------------------------------------------------------------ 
 echo "--- AUTHENTICATION ---"
 read -s -p "Enter AUTH_JWT_SECRET (Random String): " AUTH_JWT_SECRET
 echo ""

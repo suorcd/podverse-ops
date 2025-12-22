@@ -15,12 +15,18 @@ SECRET_NAME="podverse-${ENVIRONMENT}-mq-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-mq-opaque.enc.yaml"
 
-# --- INPUTS ---
+# ------------------------------------------------------------------
+# INPUTS
+# ------------------------------------------------------------------
 DEFAULT_USER="admin"
+echo ""
+echo "--- USERNAME INPUTS ---"
+
 read -p "Enter MQ Username [${DEFAULT_USER}]: " INPUT_USER
 MQ_USER="${INPUT_USER:-$DEFAULT_USER}"
 
 echo ""
+echo "--- SENSITIVE INPUTS ---"
 read -s -p "Enter MQ Password: " MQ_PASSWORD
 echo ""
 if [ -z "$MQ_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
