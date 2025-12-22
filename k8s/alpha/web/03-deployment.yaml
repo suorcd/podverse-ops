@@ -1,4 +1,4 @@
-# Version: 5
+# Version: 6
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,13 +28,12 @@ spec:
       containers:
       - name: web
         image: ghcr.io/podverse/podverse-web/podverse-web:5.1.8-alpha.0
-        imagePullPolicy: IfNotPresent
-        command:
-        - /bin/sh
-        - -c
-        # CHANGED: Switched to dev mode to skip build and match NODE_ENV
-        args:
-        - npm run dev
+        imagePullPolicy: Always
+        # CHANGED: Removed manual command/args. The Dockerfile now handles startup ("npm start").
+        env:
+        # CHANGED: Force production mode to match the build, overriding the ConfigMap if necessary.
+        - name: NODE_ENV
+          value: "production"
         envFrom:
         - configMapRef:
             name: podverse-web-config
@@ -47,21 +46,21 @@ spec:
             path: /
             port: 3000
             scheme: HTTP
-          initialDelaySeconds: 15
+          initialDelaySeconds: 10
           periodSeconds: 20
           successThreshold: 1
           failureThreshold: 3
-          timeoutSeconds: 1
+          timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /
             port: 3000
             scheme: HTTP
-          initialDelaySeconds: 10
+          initialDelaySeconds: 5
           periodSeconds: 10
           successThreshold: 1
           failureThreshold: 3
-          timeoutSeconds: 1
+          timeoutSeconds: 5
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
