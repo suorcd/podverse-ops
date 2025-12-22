@@ -1,6 +1,7 @@
-# Version: 1
+# Version: 2
 # The StatefulSet manages the Database Pod.
 # It defines the storage, the image, the configuration arguments, and the startup scripts.
+# UPDATE: Added nodeSelector to pin to a specific node by hostname.
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -22,6 +23,11 @@ spec:
         app: podverse-db
         environment: alpha
     spec:
+      # Pin the database to a specific node using its hostname.
+      # Run 'kubectl get nodes' to see your node names.
+      nodeSelector:
+        kubernetes.io/hostname: "k3s-server-1"  # Change this to your desired node's hostname
+
       containers:
       - name: postgres
         image: postgres:18.1
