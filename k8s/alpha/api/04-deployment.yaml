@@ -14,9 +14,7 @@ metadata:
     argocd.argoproj.io/managed-by: "argocd"
     argocd.argoproj.io/compare-options: "IgnoreExtraneous"
     # This is the endpoint that will show up as a clickable link in ArgoCD UI
-    argocd.argoproj.io/links: |
-      - name: API Endpoint
-        url: https://api.alpha.podverse.podcastdj.com/
+    link.argocd.argoproj.io/external-link: https://api.alpha.podverse.podcastdj.com/
   labels:
     app: podverse-api
     environment: alpha
