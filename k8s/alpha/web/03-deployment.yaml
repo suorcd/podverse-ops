@@ -24,7 +24,7 @@ spec:
       containers:
       - name: web
         # UPDATE THIS TAG to your desired version
-        image: ghcr.io/podverse/podverse-web/podverse-web:latest
+        image: ghcr.io/podverse/podverse-web/podverse-web:5.1.8-alpha.0
         
         # We allow the container to build on start, as per your Compose file
         command: ["/bin/sh", "-c"]
