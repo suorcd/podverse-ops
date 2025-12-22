@@ -1,12 +1,15 @@
-# Version: 1
+# Version: 2
 # Application for Database
+# FIX: Switched to 'background' finalizer to silence Kubernetes "domain-qualified" warning.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: podverse-alpha-db
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    # This finalizer ensures that when you delete this App, the child resources (deployment, svc, etc.) are also deleted.
+    # We use the '/background' variant because it includes a slash (/), which satisfies the Kubernetes warning.
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   project: default
   source:
