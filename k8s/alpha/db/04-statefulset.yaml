@@ -1,7 +1,8 @@
-# Version: 2
+# Version: 3
 # The StatefulSet manages the Database Pod.
 # It defines the storage, the image, the configuration arguments, and the startup scripts.
 # UPDATE: Added nodeSelector to pin to a specific node by hostname.
+# FIX: Corrected indentation for envFrom.secretRef.name.
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -38,7 +39,7 @@ spec:
         # We inject the sensitive variables from the Secret we created in Step 2
         envFrom:
         - secretRef:
-          name: podverse-alpha-db-opaque
+            name: podverse-alpha-db-opaque
         
         # We translate the 'command' flags from docker-compose into 'args'.
         # Note: We do not set 'max_worker_processes' or 'max_parallel_workers' too high
