@@ -11,7 +11,7 @@ metadata:
     argocd.argoproj.io/managed-by: "argocd"
     argocd.argoproj.io/compare-options: "IgnoreExtraneous"
     # This is the endpoint that will show up as a clickable link in ArgoCD UI
-    link.argocd.argoproj.io/external-link: https://alpha.podverse.podcastdj.com/
+    link.argocd.argoproj.io/external-link: https://alpha-podverse.ser.ink/
   labels:
     app: podverse-web
     environment: alpha

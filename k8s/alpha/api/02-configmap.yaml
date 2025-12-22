@@ -37,7 +37,7 @@ data:
   # Public Domains (You will configure these in your Ingress later)
   COOKIE_DOMAIN: "localhost" # Change to your actual domain (e.g., .podverse.yourdomain.com)
   WEBSITE_PROTOCOL: "https"
-  WEBSITE_DOMAIN: "api.alpha.podverse.podcastdj.com" # Change to your actual domain
+  WEBSITE_DOMAIN: "api-alpha-podverse.ser.ink" # Change to your actual domain
 
   # Auth Tokens (Seconds)
   EMAIL_VERIFICATION_TOKEN_EXPIRATION: "31540000"

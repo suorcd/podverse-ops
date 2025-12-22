@@ -32,13 +32,13 @@ spec:
   # You do NOT need to create it manually.
   tls:
   - hosts:
-    - api.alpha.podverse.podcastdj.com
-    - alpha.podverse.podcastdj.com
+    - api-alpha-podverse.ser.ink
+    - alpha-podverse.ser.ink
     secretName: podverse-tls-cert
 
   rules:
   # Rule 1: API Subdomain
-  - host: api.alpha.podverse.podcastdj.com
+  - host: api-alpha-podverse.ser.ink
     http:
       paths:
       - path: /
@@ -50,7 +50,7 @@ spec:
               number: 1234
 
   # Rule 2: Web (Frontend) Domain
-  - host: alpha.podverse.podcastdj.com
+  - host: alpha-podverse.ser.ink
     http:
       paths:
       - path: /
