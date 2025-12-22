@@ -1,6 +1,7 @@
-# Version: 2 (Added DB Secret Ref)
+# Version: 3
 # The Deployment for the Podverse API.
 # It connects to the Database and MQ using the environment variables defined in the ConfigMap/Secret.
+# FIX: Corrected indentation for envFrom.secretRef.name.
 
 apiVersion: apps/v1
 kind: Deployment
@@ -36,10 +37,10 @@ spec:
             name: podverse-api-config
         # Load API specific secrets (JWT, Mailer)
         - secretRef:
-          name: podverse-alpha-api-opaque
+            name: podverse-alpha-api-opaque
         # Load DB secrets (DB_READ_PASSWORD, etc.)
         - secretRef:
-          name: podverse-alpha-db-opaque
+            name: podverse-alpha-db-opaque
             
         # Basic health check
         readinessProbe:
