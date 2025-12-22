@@ -6,9 +6,14 @@
 set -euo pipefail
 
 echo "Running create_mq_secret.sh"
-SECRET_NAME="podverse-mq-secret"
-NAMESPACE="podverse-alpha"
-OUTPUT_FILE="./k8s/secrets/podverse-mq-secret.enc.yaml"
+
+# ENVIRONMENT INPUT
+read -p "Enter environment [alpha]: " ENVIRONMENT
+ENVIRONMENT="${ENVIRONMENT:-alpha}"
+
+SECRET_NAME="podverse-${ENVIRONMENT}-mq-opaque"
+NAMESPACE="podverse-${ENVIRONMENT}"
+OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-mq-opaque.enc.yaml"
 
 # --- INPUTS ---
 DEFAULT_USER="admin"

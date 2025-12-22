@@ -38,7 +38,7 @@ spec:
         # We inject the sensitive variables from the Secret we created in Step 2
         envFrom:
         - secretRef:
-            name: podverse-db-secret
+          name: podverse-alpha-db-opaque
         
         # We translate the 'command' flags from docker-compose into 'args'.
         # Note: We do not set 'max_worker_processes' or 'max_parallel_workers' too high

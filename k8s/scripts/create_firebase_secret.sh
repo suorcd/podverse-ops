@@ -5,9 +5,14 @@
 set -euo pipefail
 
 echo "Running create_firebase_secret.sh"
-SECRET_NAME="podverse-workers-firebase-secret"
-NAMESPACE="podverse-alpha"
-OUTPUT_FILE="./k8s/secrets/podverse-workers-firebase-secret.enc.yaml"
+
+# ENVIRONMENT INPUT
+read -p "Enter environment [alpha]: " ENVIRONMENT
+ENVIRONMENT="${ENVIRONMENT:-alpha}"
+
+SECRET_NAME="podverse-${ENVIRONMENT}-workers-firebase-opaque"
+NAMESPACE="podverse-${ENVIRONMENT}"
+OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-firebase-opaque.enc.yaml"
 
 # --- INPUTS ---
 echo "Please enter the path to your 'firebase-key.json' file:"

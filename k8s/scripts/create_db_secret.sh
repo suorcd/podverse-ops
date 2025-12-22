@@ -7,12 +7,19 @@ set -euo pipefail
 
 echo "Running create_db_secret.sh"
 
+
+# ------------------------------------------------------------------
+# ENVIRONMENT INPUT
+# ------------------------------------------------------------------
+read -p "Enter environment [alpha]: " ENVIRONMENT
+ENVIRONMENT="${ENVIRONMENT:-alpha}"
+
 # ------------------------------------------------------------------
 # CONFIGURATION
 # ------------------------------------------------------------------
-SECRET_NAME="podverse-db-secret"
-NAMESPACE="podverse-alpha"
-OUTPUT_FILE="./k8s/secrets/podverse-db-secret.enc.yaml"
+SECRET_NAME="podverse-${ENVIRONMENT}-db-opaque"
+NAMESPACE="podverse-${ENVIRONMENT}"
+OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-db-opaque.enc.yaml"
 
 # ------------------------------------------------------------------
 # INPUTS

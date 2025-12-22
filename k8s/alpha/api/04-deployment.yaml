@@ -36,10 +36,10 @@ spec:
             name: podverse-api-config
         # Load API specific secrets (JWT, Mailer)
         - secretRef:
-            name: podverse-api-secret
+          name: podverse-alpha-api-opaque
         # Load DB secrets (DB_READ_PASSWORD, etc.)
         - secretRef:
-            name: podverse-db-secret
+          name: podverse-alpha-db-opaque
             
         # Basic health check
         readinessProbe:

@@ -73,9 +73,9 @@ Before running the scripts, ensure you have the following ready:
 
 ```bash
 # Run each script and follow the prompts
-./k8s/scripts/create_db_secret.sh
-./k8s/scripts/create_mq_secret.sh
-./k8s/scripts/create_api_secret.sh
-./k8s/scripts/create_workers_secret.sh
-./k8s/scripts/create_firebase_secret.sh
+bash ./k8s/scripts/create_db_secret.sh
+bash ./k8s/scripts/create_mq_secret.sh
+bash ./k8s/scripts/create_api_secret.sh
+bash ./k8s/scripts/create_workers_secret.sh
+bash ./k8s/scripts/create_firebase_secret.sh
 ```

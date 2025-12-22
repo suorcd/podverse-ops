@@ -22,10 +22,10 @@ spec:
         - configMapRef:
             name: podverse-workers-config
         - secretRef:
-            name: podverse-workers-secret
+          name: podverse-alpha-workers-opaque
         # Load DB secrets (DB_READ_PASSWORD, etc.)
         - secretRef:
-            name: podverse-db-secret
+          name: podverse-alpha-db-opaque
             
         volumeMounts:
         - name: firebase-config
@@ -35,4 +35,4 @@ spec:
       volumes:
       - name: firebase-config
         secret:
-          secretName: podverse-workers-firebase-secret
+          secretName: podverse-alpha-workers-firebase-opaque

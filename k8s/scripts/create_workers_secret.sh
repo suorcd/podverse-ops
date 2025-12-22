@@ -5,9 +5,14 @@
 set -euo pipefail
 
 echo "Running create_workers_secret.sh"
-SECRET_NAME="podverse-workers-secret"
-NAMESPACE="podverse-alpha"
-OUTPUT_FILE="./k8s/secrets/podverse-workers-secret.enc.yaml"
+
+# ENVIRONMENT INPUT
+read -p "Enter environment [alpha]: " ENVIRONMENT
+ENVIRONMENT="${ENVIRONMENT:-alpha}"
+
+SECRET_NAME="podverse-${ENVIRONMENT}-workers-opaque"
+NAMESPACE="podverse-${ENVIRONMENT}"
+OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-opaque.enc.yaml"
 
 # --- INPUTS ---
 echo "--- PODCAST INDEX API ---"
