@@ -1,7 +1,7 @@
 # Version: 1
 # The Deployment for the Podverse Workers.
 # Handles background tasks (RSS parsing, etc.).
-
+# TODO Review with developer
 apiVersion: apps/v1
 kind: Deployment
 metadata:

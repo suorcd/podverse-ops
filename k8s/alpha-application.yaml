@@ -6,9 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    # UPDATE THIS to your actual Gitea repository URL
-    repoURL: https://gitea.ser.ink/YOUR_USERNAME/podverse-ops.git
-    targetRevision: v5-develop
+    repoURL: https://github.com/suorcd/podverse-ops.git
+    targetRevision: feature/k3s
     path: k8s/alpha
   destination:
     server: https://kubernetes.default.svc

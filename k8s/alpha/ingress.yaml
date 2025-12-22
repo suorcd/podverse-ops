@@ -1,6 +1,7 @@
-# Version: 4
+# Version: 5
 # This Ingress listens on HTTPS (websecure).
 # It uses Cert-Manager (LetsEncrypt Prod) to automatically provision certificates.
+# UPDATE: Marked TLS Options as TODO for developer review.
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -18,8 +19,10 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
     
     # 3. Apply our Advanced TLS Options (from tls-options.yaml)
-    # Format: <resource-name>@<provider namespace> (if referencing across namespaces, but here same ns)
-    traefik.ingress.kubernetes.io/router.tls.options: podverse-secure-tls@kubernetescrd
+    # TODO: REVIEW WITH DEVELOPER.
+    # We need to confirm if 'podverse-secure-tls' is the correct name and if the TLSOption CRD is deployed.
+    # Format: <resource-name>@<provider namespace>
+    # traefik.ingress.kubernetes.io/router.tls.options: podverse-secure-tls@kubernetescrd
     
     # 4. Cert-Manager: Request a certificate from your ClusterIssuer
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
