@@ -1,7 +1,5 @@
-# Version: 1
-# This Job acts as a "hook" to provision the queues once the broker is running.
-# It mounts the script we defined in the ConfigMap (Step 5) and executes it.
-# We use the same image as the broker so we have access to the 'artemis' CLI tool.
+# Version: 2
+# UPDATE: Added emptyDir volume for /var/lib/activemq-artemis to prevent permission errors if CLI tries to write logs.
 
 apiVersion: batch/v1
 kind: Job
@@ -13,7 +11,6 @@ metadata:
     component: provisioner
     environment: alpha
   annotations:
-    # ArgoCD Hook: This ensures ArgoCD runs this AFTER deploying the StatefulSet.
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
@@ -30,14 +27,19 @@ spec:
         
         envFrom:
         - secretRef:
-          name: podverse-alpha-mq-opaque
+            name: podverse-mq-secret
         
         volumeMounts:
         - name: scripts
           mountPath: /scripts
+        # Provide a writable directory for the CLI tool's temporary files
+        - name: scratch-data
+          mountPath: /var/lib/artemis-instance
       
       volumes:
       - name: scripts
         configMap:
           name: podverse-mq-scripts
-          defaultMode: 0755 # Ensures the script is executable
+          defaultMode: 0755
+      - name: scratch-data
+        emptyDir: {}
