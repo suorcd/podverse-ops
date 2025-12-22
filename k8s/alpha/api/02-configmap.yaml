@@ -1,6 +1,7 @@
-# Version: 1
+# Version: 2
 # Non-sensitive configuration for the Podverse API.
 # Mapped from config/podverse-api.env.example
+# UPDATE: Added MESSAGE_QUEUE_HOST and MESSAGE_QUEUE_PORT to connect to the MQ Service.
 
 apiVersion: v1
 kind: ConfigMap
@@ -27,6 +28,11 @@ data:
   DB_READ_USERNAME: "read"
   DB_READ_WRITE_USERNAME: "read_write"
   DB_SSL_CONNECTION: "false"
+
+  # Message Queue
+  # We point to the internal Kubernetes Service for the MQ
+  MESSAGE_QUEUE_HOST: "podverse-mq"
+  MESSAGE_QUEUE_PORT: "61616"
 
   # Public Domains (You will configure these in your Ingress later)
   COOKIE_DOMAIN: "localhost" # Change to your actual domain (e.g., .podverse.yourdomain.com)
