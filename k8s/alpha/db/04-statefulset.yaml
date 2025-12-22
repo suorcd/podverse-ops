@@ -1,7 +1,8 @@
-# Version: 4
+# Version: 6
 # The StatefulSet manages the Database Pod.
 # It defines the storage, the image, the configuration arguments, and the startup scripts.
-# UPDATE: Commented out nodeSelector to allow scheduling on any available node.
+# UPDATE: Restored image to postgres:18.1.
+# UPDATE: Kept nodeSelector commented out to resolve "0/3 nodes available" error.
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -26,7 +27,7 @@ spec:
       # Pin the database to a specific node using its hostname.
       # Run 'kubectl get nodes' to see your node names.
       # REMOVED: We are commenting this out to let K8s pick the node.
-      # Once picked, the 'local-path' storage will pin the data to that node automatically.
+      # This fixes the "0/3 nodes available" scheduling error.
       # nodeSelector:
       #   kubernetes.io/hostname: "k3s-server-1"
 
