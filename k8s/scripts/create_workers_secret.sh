@@ -17,11 +17,14 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-opaque.enc.yaml"
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-echo "--- PODCAST INDEX API ---"
-read -s -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
+echo ""
+echo "--- PODCAST INDEX API KEY---"
+read -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
 echo ""
 if [ -z "$PI_AUTH" ]; then echo "Error: Auth Key required."; exit 1; fi
 
+echo "--- PODCAST INDEX API SECRET---"
+echo ""
 read -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
 echo ""
 if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
