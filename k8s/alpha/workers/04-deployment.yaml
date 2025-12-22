@@ -1,7 +1,9 @@
-# Version: 1
+# Version: 2
 # The Deployment for the Podverse Workers.
 # Handles background tasks (RSS parsing, etc.).
 # TODO Review with developer
+# FIX: Corrected indentation for envFrom.secretRef.name.
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,7 +35,7 @@ spec:
         - configMapRef:
             name: podverse-workers-config
         - secretRef:
-          name: podverse-alpha-workers-opaque
+            name: podverse-alpha-workers-opaque
         
         volumeMounts:
         # Mount the Firebase JSON key from the Secret

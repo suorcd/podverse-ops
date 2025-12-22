@@ -1,4 +1,6 @@
-# Version: 2 (Added DB Secret Ref)
+# Version: 3 (Added DB Secret Ref)
+# FIX: Corrected indentation for envFrom.secretRef.name entries.
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,10 +24,10 @@ spec:
         - configMapRef:
             name: podverse-workers-config
         - secretRef:
-          name: podverse-alpha-workers-opaque
+            name: podverse-alpha-workers-opaque
         # Load DB secrets (DB_READ_PASSWORD, etc.)
         - secretRef:
-          name: podverse-alpha-db-opaque
+            name: podverse-alpha-db-opaque
             
         volumeMounts:
         - name: firebase-config
