@@ -84,7 +84,15 @@ bash ./k8s/scripts/create_firebase_secret.sh
 **Apply**
 
 ```fish
-for file in podverse-alpha-*-opaque.enc.yaml
+kubectl create namespace podverse-alpha
+kubectl apply -f k8s/system/traefik-config.yaml
+
+
+for file in k8s/secrets/podverse-alpha-*-opaque.enc.yaml
     sops -d $file | kubectl apply -f -
 end
+
+kubectl apply -f k8s/alpha-application.yaml
+
+
 ```
