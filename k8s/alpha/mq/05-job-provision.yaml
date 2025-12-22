@@ -1,5 +1,5 @@
 # Version: 2
-# UPDATE: Added emptyDir volume for /var/lib/activemq-artemis to prevent permission errors if CLI tries to write logs.
+# UPDATE: Added emptyDir volume for /var/lib/activemq-artemis to prevent permission errors.
 
 apiVersion: batch/v1
 kind: Job
