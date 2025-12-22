@@ -1,7 +1,7 @@
-# Version: 2
+# Version: 3
 # Defines strict TLS security policies.
 # Corresponds to Nginx 'ssl_protocols' and 'ssl_ciphers'.
-# UPDATE: Fixed schema. 'strictSNI' is a direct child of 'spec', not a snippet.
+# UPDATE: Fixed field name from 'strictSNI' to 'sniStrict'.
 
 apiVersion: traefik.io/v1alpha1
 kind: TLSOption
@@ -16,7 +16,8 @@ spec:
   
   # HSTS (Strict Transport Security) and SNI strictness
   # This must be a direct field of 'spec'
-  strictSNI: true
+  # CORRECTION: The valid CRD field is 'sniStrict', not 'strictSNI'
+  sniStrict: true
 
   # Optional: Restrict Cipher Suites (Modern Compatibility)
   # If removed, Traefik uses Go's safe defaults (usually sufficient).
