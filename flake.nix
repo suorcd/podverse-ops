@@ -23,6 +23,7 @@
             kubectl
             kubernetes-helm
             moreutils
+            postgresql
             sops
             yamllint
             yq
