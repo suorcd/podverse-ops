@@ -6,7 +6,7 @@ metadata:
   name: podverse-alpha-mq
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io/podverse-alpha-mq
 spec:
   project: default
   source:
