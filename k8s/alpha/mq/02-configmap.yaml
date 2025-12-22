@@ -1,6 +1,5 @@
-# Version: 2
-# UPDATE: Changed binary path from /var/lib/artemis-instance/bin/artemis to 'artemis' (global command).
-# The Job does not have a local instance, so we must use the global CLI tool.
+# Version: 3
+# UPDATE: Changed binary path to global 'artemis' command.
 
 apiVersion: v1
 kind: ConfigMap
@@ -26,8 +25,7 @@ data:
 
     echo "[provision] Waiting for broker at $BROKER_URL..."
     
-    # We loop until we can successfully list queues or connect.
-    # We use the global 'artemis' command.
+    # Use global 'artemis' command
     for i in $(seq 1 30); do
       if artemis producer --url "$BROKER_URL" --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --message-count 0 --silent >/dev/null 2>&1; then
         echo "[provision] Broker is reachable."
@@ -43,7 +41,7 @@ data:
       DLQ="DLQ.$q"
       echo "[provision] Processing queue: $q (DLQ: $DLQ)"
 
-      # Create or Update Address (with DLQ settings)
+      # Create or Update Address
       artemis address create \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$q" --anycast \
@@ -60,13 +58,12 @@ data:
         --consumer-window-size 0 --ring-size -1 \
         --message-expiry-thread-priority 3 --silent >/dev/null 2>&1 || echo "Warning: Address $q update failed or no change needed."
 
-      # Create Main Queue
+      # Create Queues
       artemis queue create \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$q" --address "$q" \
         --anycast --durable --auto-create-address --silent >/dev/null 2>&1 || echo "Queue $q likely exists."
 
-      # Create DLQ
       artemis queue create \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$DLQ" --address "$DLQ" \

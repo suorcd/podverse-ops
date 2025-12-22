@@ -1,5 +1,5 @@
-# Version: 2
-# UPDATE: Added emptyDir volume for /var/lib/activemq-artemis to prevent permission errors.
+# Version: 3
+# UPDATE: Added writable volume for /var/lib/artemis-instance and explicit bash command.
 
 apiVersion: batch/v1
 kind: Job
@@ -23,6 +23,7 @@ spec:
       containers:
       - name: provisioner
         image: apache/activemq-artemis:2.37.0
+        # RUN WITH BASH EXPLICITLY to avoid "Permission denied" on the script execution
         command: ["/bin/bash", "/scripts/provision-queues.sh"]
         
         envFrom:
@@ -32,7 +33,7 @@ spec:
         volumeMounts:
         - name: scripts
           mountPath: /scripts
-        # Provide a writable directory for the CLI tool's temporary files
+        # MOUNT WRITABLE DIR: The CLI tool needs to write logs/locks here
         - name: scratch-data
           mountPath: /var/lib/artemis-instance
       
