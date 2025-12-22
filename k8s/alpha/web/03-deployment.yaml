@@ -1,4 +1,4 @@
-# Version: 6
+# Version: 7
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,7 +27,8 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/suorcd/podverse-web/podverse-web:5.1.8-alpha.0-suorcd # TODO switch back to ghcr.io/podverse/podverse-web/podverse-web:5.1.8-alpha.0
+        # CHANGED: Updated tag to the newly built image containing the crash fixes
+        image: ghcr.io/suorcd/podverse-web/podverse-web:5.1.9-fix-1 
         imagePullPolicy: Always
         # CHANGED: Removed manual command/args. The Dockerfile now handles startup ("npm start").
         env:
