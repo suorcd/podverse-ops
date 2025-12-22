@@ -1,7 +1,7 @@
-# Version: 3
+# Version: 4
 # The Deployment for the Podverse API.
 # It connects to the Database and MQ using the environment variables defined in the ConfigMap/Secret.
-# FIX: Corrected indentation for envFrom.secretRef.name.
+# FIX: Added secretRef for podverse-alpha-mq-opaque to resolve Artemis authentication error.
 
 apiVersion: apps/v1
 kind: Deployment
@@ -48,6 +48,9 @@ spec:
         # Load DB secrets (DB_READ_PASSWORD, etc.)
         - secretRef:
             name: podverse-alpha-db-opaque
+        # Load MQ secrets (MESSAGE_QUEUE_USERNAME, MESSAGE_QUEUE_PASSWORD)
+        - secretRef:
+            name: podverse-alpha-mq-opaque
             
         # Basic health check
         readinessProbe:
