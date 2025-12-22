@@ -16,5 +16,5 @@ spec:
         command: ["psql", "-h", "podverse-db", "-U", "postgres", "-d", "postgres", "-c", "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"]
         envFrom:
         - secretRef:
-            name: podverse-db-secret
+            name: podverse-db-opaque
       restartPolicy: Never

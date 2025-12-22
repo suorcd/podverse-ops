@@ -21,7 +21,7 @@ spec:
         - configMapRef:
             name: podverse-workers-config
         - secretRef:
-            name: podverse-workers-secret
+            name: podverse-workers-opaque
         volumeMounts:
         - name: firebase-config
           mountPath: /opt/config/firebase-key.json
@@ -30,4 +30,4 @@ spec:
       volumes:
       - name: firebase-config
         secret:
-          secretName: podverse-workers-firebase-secret
+          secretName: podverse-workers-firebase-opaque
