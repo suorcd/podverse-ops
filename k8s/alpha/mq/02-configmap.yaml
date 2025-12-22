@@ -1,6 +1,6 @@
-# Version: 1
-# This ConfigMap contains the queue provisioning script.
-# It has been adapted from scripts/mq/provision_queues.sh to run within a Kubernetes Job.
+# Version: 2
+# UPDATE: Changed binary path from /var/lib/artemis-instance/bin/artemis to 'artemis' (global command).
+# The Job does not have a local instance, so we must use the global CLI tool.
 
 apiVersion: v1
 kind: ConfigMap
@@ -26,10 +26,10 @@ data:
 
     echo "[provision] Waiting for broker at $BROKER_URL..."
     
-    # We loop until we can successfully list queues or connect, indicating the broker is up.
-    # We use the artemis producer command with 0 messages as a connectivity check.
+    # We loop until we can successfully list queues or connect.
+    # We use the global 'artemis' command.
     for i in $(seq 1 30); do
-      if /var/lib/artemis-instance/bin/artemis producer --url "$BROKER_URL" --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --message-count 0 --silent >/dev/null 2>&1; then
+      if artemis producer --url "$BROKER_URL" --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --message-count 0 --silent >/dev/null 2>&1; then
         echo "[provision] Broker is reachable."
         break
       fi
@@ -44,8 +44,7 @@ data:
       echo "[provision] Processing queue: $q (DLQ: $DLQ)"
 
       # Create or Update Address (with DLQ settings)
-      # We attempt create first; if it fails (likely exists), we attempt update.
-      /var/lib/artemis-instance/bin/artemis address create \
+      artemis address create \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$q" --anycast \
         --dead-letter-address "$DLQ" --max-delivery-attempts 5 \
@@ -53,7 +52,7 @@ data:
         --consumer-window-size 0 --ring-size -1 \
         --message-expiry-thread-priority 3 --silent >/dev/null 2>&1 \
       || \
-      /var/lib/artemis-instance/bin/artemis address update \
+      artemis address update \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$q" \
         --dead-letter-address "$DLQ" --max-delivery-attempts 5 \
@@ -62,13 +61,13 @@ data:
         --message-expiry-thread-priority 3 --silent >/dev/null 2>&1 || echo "Warning: Address $q update failed or no change needed."
 
       # Create Main Queue
-      /var/lib/artemis-instance/bin/artemis queue create \
+      artemis queue create \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$q" --address "$q" \
         --anycast --durable --auto-create-address --silent >/dev/null 2>&1 || echo "Queue $q likely exists."
 
       # Create DLQ
-      /var/lib/artemis-instance/bin/artemis queue create \
+      artemis queue create \
         --user "$ARTEMIS_USER" --password "$ARTEMIS_PASSWORD" --url "$BROKER_URL" \
         --name "$DLQ" --address "$DLQ" \
         --anycast --durable --auto-create-address --silent >/dev/null 2>&1 || echo "Queue $DLQ likely exists."
