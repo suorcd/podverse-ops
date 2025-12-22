@@ -40,4 +40,8 @@ sops --encrypt --encrypted-regex '^(data|stringData)$' \
 
 rm -f "$TMP_FILE"
 
-echo "SUCCESS: Created ${OUTPUT_FILE}"
+echo "----------------------------------------------------"
+echo "SUCCESS: Encrypted secret created at ${OUTPUT_FILE}"
+echo "----------------------------------------------------"
+echo "You can verify the values (if you have the key) by running:"
+echo "sops -d ${OUTPUT_FILE}"
