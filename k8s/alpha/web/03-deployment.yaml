@@ -1,7 +1,4 @@
-# Version: 1
-# The Deployment for the Podverse Web frontend.
-# We retain the runtime build command to match your Docker Compose workflow.
-
+# Version: 3
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,7 +8,14 @@ metadata:
     app: podverse-web
     environment: alpha
 spec:
+  progressDeadlineSeconds: 600
   replicas: 1
+  revisionHistoryLimit: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   selector:
     matchLabels:
       app: podverse-web
@@ -23,31 +27,41 @@ spec:
     spec:
       containers:
       - name: web
-        # UPDATE THIS TAG to your desired version
         image: ghcr.io/podverse/podverse-web/podverse-web:5.1.8-alpha.0
-        
-        # We allow the container to build on start, as per your Compose file
-        command: ["/bin/sh", "-c"]
-        args: ["npm run build && npm start"]
-        
-        ports:
-        - containerPort: 3000
-          name: http
-        
+        imagePullPolicy: IfNotPresent
+        # CHANGED: Removed "npm run build &&"
+        command:
+        - /bin/sh
+        - -c
+        args:
+        - npm start
         envFrom:
         - configMapRef:
             name: podverse-web-config
-            
-        # Health checks (assuming / returns 200 OK)
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 30 # Increased delay for 'npm run build' time
-          periodSeconds: 10
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
         livenessProbe:
           httpGet:
             path: /
             port: 3000
+            scheme: HTTP
           initialDelaySeconds: 60
           periodSeconds: 20
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
