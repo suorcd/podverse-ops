@@ -1,8 +1,7 @@
-# Version: 3
+# Version: 4
 # The StatefulSet manages the Database Pod.
 # It defines the storage, the image, the configuration arguments, and the startup scripts.
-# UPDATE: Added nodeSelector to pin to a specific node by hostname.
-# FIX: Corrected indentation for envFrom.secretRef.name.
+# UPDATE: Commented out nodeSelector to allow scheduling on any available node.
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -26,8 +25,10 @@ spec:
     spec:
       # Pin the database to a specific node using its hostname.
       # Run 'kubectl get nodes' to see your node names.
-      nodeSelector:
-        kubernetes.io/hostname: "k3s-server-1"  # Change this to your desired node's hostname
+      # REMOVED: We are commenting this out to let K8s pick the node.
+      # Once picked, the 'local-path' storage will pin the data to that node automatically.
+      # nodeSelector:
+      #   kubernetes.io/hostname: "k3s-server-1"
 
       containers:
       - name: postgres
