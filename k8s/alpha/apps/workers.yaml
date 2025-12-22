@@ -6,7 +6,7 @@ metadata:
   name: podverse-alpha-workers
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io/podverse-alpha-workers
 spec:
   project: default
   source:
