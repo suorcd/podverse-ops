@@ -70,6 +70,7 @@ echo "Generating and encrypting secret..."
 TMP_FILE="$(mktemp -t "${SECRET_NAME}.XXXXXX.yaml")"
 kubectl create secret generic "${SECRET_NAME}" \
     --namespace "${NAMESPACE}" \
+    --from-literal=DB_DATABASE="${POSTGRES_DB}" \
     --from-literal=POSTGRES_DB="${POSTGRES_DB}" \
     --from-literal=POSTGRES_USER="${POSTGRES_USER}" \
     --from-literal=POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
