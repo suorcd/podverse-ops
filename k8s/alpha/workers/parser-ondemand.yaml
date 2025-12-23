@@ -23,7 +23,10 @@ spec:
         - secretRef:
             name: podverse-alpha-workers-opaque
         - secretRef:
-            name: podverse-alpha-db-opaque      #   volumeMounts:
+            name: podverse-alpha-db-opaque
+        - secretRef:
+            name: podverse-alpha-mq-opaque
+      #   volumeMounts:
       #   - name: firebase-config
       #     mountPath: /opt/config/firebase-key.json
       #     subPath: firebase-key.json
