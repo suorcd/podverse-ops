@@ -37,21 +37,21 @@ spec:
         - secretRef:
             name: podverse-alpha-workers-opaque
         
-        volumeMounts:
-        # Mount the Firebase JSON key from the Secret
-        - name: firebase-config
-          mountPath: /opt/config/firebase-key.json
-          subPath: firebase-key.json
-          readOnly: true
+        # volumeMounts:
+        # # Mount the Firebase JSON key from the Secret
+        # - name: firebase-config
+        #   mountPath: /opt/config/firebase-key.json
+        #   subPath: firebase-key.json
+        #   readOnly: true
         
         # Temporary storage for logs if the app writes to disk
         - name: logs
           mountPath: /opt/logs
 
-      volumes:
-      - name: firebase-config
-        secret:
-          secretName: podverse-alpha-workers-firebase-opaque
+      # volumes:
+      # - name: firebase-config
+      #   secret:
+      #     secretName: podverse-alpha-workers-firebase-opaque
       
       - name: logs
         emptyDir: {}
