@@ -35,12 +35,9 @@ spec:
     spec:
       containers:
       - name: web
-        # CHANGED: Updated tag to fix-5
-        image: ghcr.io/podverse/podverse-web/podverse-web-deploy:5.1.10-alpha.4 
+        image: ghcr.io/suorcd/podverse-web-deploy:5.1.10-alpha.0 
         imagePullPolicy: Always
-        # CHANGED: Removed manual command/args. The Dockerfile now handles startup ("npm start").
         env:
-        # CHANGED: Force production mode to match the build, overriding the ConfigMap if necessary.
         - name: NODE_ENV
           value: "production"
         envFrom:
