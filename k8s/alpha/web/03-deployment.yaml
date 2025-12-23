@@ -67,6 +67,8 @@ spec:
           successThreshold: 1
           failureThreshold: 3
           timeoutSeconds: 5
+      imagePullSecrets:
+      - name: github-registry-secret
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
