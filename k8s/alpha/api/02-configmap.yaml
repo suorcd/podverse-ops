@@ -31,7 +31,7 @@ data:
 
   # Web App TODO: Update these to your actual web app domain and protocol
   WEB_PROTOCOL: "http"
-  WEB_DOMAIN: "localhost:3000"
+  WEB_DOMAIN: "podverse-web:3000"
 
   # Networking
   # We point to the internal Kubernetes Service for the database
