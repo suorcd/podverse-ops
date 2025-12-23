@@ -51,7 +51,8 @@ spec:
         # Load MQ secrets (MESSAGE_QUEUE_USERNAME, MESSAGE_QUEUE_PASSWORD)
         - secretRef:
             name: podverse-alpha-mq-opaque
-            
+        - secretRef:
+            name: podverse-alpha-workers-opaque           
         # Basic health check
         readinessProbe:
           httpGet:
