@@ -40,5 +40,5 @@ data:
 
   # Firebase
   # This path matches where we will mount the secret in the Deployment
-  FIREBASE_PATH_TO_AUTH_JSON: "/opt/config/firebase-key.json"
-  FIREBASE_PROJECT_ID: "REPLACE_with_your_project_id"
+  # FIREBASE_PATH_TO_AUTH_JSON: "/opt/config/firebase-key.json"
+  # FIREBASE_PROJECT_ID: "REPLACE_with_your_project_id"

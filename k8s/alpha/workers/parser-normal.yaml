@@ -29,12 +29,12 @@ spec:
         - secretRef:
             name: podverse-alpha-db-opaque
             
-        volumeMounts:
-        - name: firebase-config
-          mountPath: /opt/config/firebase-key.json
-          subPath: firebase-key.json
-          readOnly: true
-      volumes:
-      - name: firebase-config
-        secret:
-          secretName: podverse-alpha-workers-firebase-opaque
+      #   volumeMounts:
+      #   - name: firebase-config
+      #     mountPath: /opt/config/firebase-key.json
+      #     subPath: firebase-key.json
+      #     readOnly: true
+      # volumes:
+      # - name: firebase-config
+      #   secret:
+      #     secretName: podverse-alpha-workers-firebase-opaque
