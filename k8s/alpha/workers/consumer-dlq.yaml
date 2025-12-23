@@ -21,8 +21,7 @@ spec:
         envFrom:
         - configMapRef:
             name: podverse-workers-config
-        - secretRef:
-            name: podverse-alpha-db-opaque
+
       #   volumeMounts:
       #   - name: firebase-config
       #     mountPath: /opt/config/firebase-key.json
