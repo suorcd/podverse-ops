@@ -94,7 +94,7 @@ data:
   ##### Podcast Index
   #####
 
-  PODCAST_INDEX_BASE_URL: "api.podcastindex.org"
+  PODCAST_INDEX_BASE_URL: "https://api.podcastindex.org/api/1.0"
   #PODCAST_INDEX_AUTH_KEY: ""
   #PODCAST_INDEX_SECRET_KEY: ""
 
