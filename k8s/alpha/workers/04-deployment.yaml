@@ -1,8 +1,9 @@
-# Version: 2
+# Version: 3
 # The Deployment for the Podverse Workers.
 # Handles background tasks (RSS parsing, etc.).
 # TODO Review with developer
 # FIX: Corrected indentation for envFrom.secretRef.name.
+# FIX: Added missing DB and MQ secrets to envFrom.
 
 apiVersion: apps/v1
 kind: Deployment
@@ -36,6 +37,10 @@ spec:
             name: podverse-workers-config
         - secretRef:
             name: podverse-alpha-workers-opaque
+        - secretRef:
+            name: podverse-alpha-db-opaque
+        - secretRef:
+            name: podverse-alpha-mq-opaque
         
         # volumeMounts:
         # # Mount the Firebase JSON key from the Secret
