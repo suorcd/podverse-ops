@@ -24,7 +24,7 @@ data:
   # in secrets
   #AUTH_JWT_SECRET: "your-secret-whatever"
 
-  USER_AGENT: "Ser-Podverse/API-2"
+  USER_AGENT: "Podverse/API-2"
   
   # Use the public facing domain, not the internal docker network ip address.
   COOKIE_DOMAIN: ".k.ser.ink" # prefix with a dot for subdomains, e.g. .podverse.fm or .beta.podverse.fm
