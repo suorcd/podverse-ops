@@ -29,7 +29,7 @@ spec:
       containers:
       - name: workers
         # UPDATE THIS TAG to your desired version
-        image: ghcr.io/podverse/podverse-workers/podverse-workers:latest
+        image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.10-alpha.0
         
         envFrom:
         - configMapRef:
