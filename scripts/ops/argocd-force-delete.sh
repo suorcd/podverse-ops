@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Version: 1
+# Version: 2
 # Description: Forcefully deletes an Argo CD Application by removing its finalizers.
 # Usage: ./scripts/ops/argocd-force-delete.sh <application-name> [namespace]
 

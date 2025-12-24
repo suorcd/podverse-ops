@@ -1,4 +1,4 @@
-# Version: 7
+# Version: 8
 # The StatefulSet manages the Database Pod.
 # It defines the storage, the image, the configuration arguments, and the startup scripts.
 # UPDATE: Changed mountPath to /var/lib/postgresql per Postgres 18+ recommendations for easier upgrades.

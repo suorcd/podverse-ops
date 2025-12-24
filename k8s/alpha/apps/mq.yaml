@@ -1,4 +1,4 @@
-# Version: 1
+# Version: 2
 # Application for Message Queue
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -6,7 +6,7 @@ metadata:
   name: podverse-alpha-mq
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io/podverse-alpha-mq
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
