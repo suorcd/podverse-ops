@@ -19,7 +19,7 @@ data:
   API_PREFIX: "/api"
   API_VERSION: "/v2"
 
-  API_ALLOWED_CORS_ORIGINS: "http://localhost:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink"
+  API_ALLOWED_CORS_ORIGINS: "http://podverse-web:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink"
 
   # in secrets
   #AUTH_JWT_SECRET: "your-secret-whatever"
