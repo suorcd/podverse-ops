@@ -1,7 +1,8 @@
-# Version: 2
+# Version: 3
 # Non-sensitive configuration for the Podverse API.
 # Mapped from config/podverse-api.env.example
 # UPDATE: Added MESSAGE_QUEUE_HOST and MESSAGE_QUEUE_PORT to connect to the MQ Service.
+# UPDATE: Changed NODE_ENV to production to enable 'trust proxy' and fix ERR_ERL_UNEXPECTED_X_FORWARDED_FOR.
 
 apiVersion: v1
 kind: ConfigMap
@@ -13,7 +14,7 @@ metadata:
     environment: alpha
 data:
   # General
-  NODE_ENV: "development"
+  NODE_ENV: "production"
   LOG_LEVEL: "info"
   API_PORT: "1234"
   API_PREFIX: "/api"
