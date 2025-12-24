@@ -6,7 +6,7 @@ metadata:
   name: podverse-alpha-api
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io/podverse-alpha-api
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   project: default
   source:

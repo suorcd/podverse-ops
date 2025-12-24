@@ -5,11 +5,8 @@ kind: Application
 metadata:
   name: podverse-alpha-workers
   namespace: argocd
-  # FINALIZER NOTE:
-  # Uncomment the lines below to enable Cascading Deletion (deleting App deletes Pods).
-  # If commented out, deleting the App will leave Pods running (Orphaned).
-  # finalizers:
-  #   - resources-finalizer.argocd.argoproj.io/podverse-alpha-workers
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   project: default
   source:

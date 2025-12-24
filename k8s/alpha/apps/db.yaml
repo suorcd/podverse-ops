@@ -7,8 +7,6 @@ metadata:
   name: podverse-alpha-db
   namespace: argocd
   finalizers:
-    # This finalizer ensures that when you delete this App, the child resources (deployment, svc, etc.) are also deleted.
-    # We use the '/background' variant because it includes a slash (/), which satisfies the Kubernetes warning.
     - resources-finalizer.argocd.argoproj.io/background
 spec:
   project: default
