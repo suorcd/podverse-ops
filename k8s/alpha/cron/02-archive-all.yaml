@@ -1,3 +1,4 @@
+# File Version: 2
 # Source: Jenkinsfile.aux_workers_archive_all
 # Schedule: 6 AM and 6 PM daily
 apiVersion: batch/v1
@@ -26,26 +27,6 @@ spec:
               limits:
                 memory: "256Mi"
                 cpu: "250m"
-            livenessProbe:
-              exec:
-                command:
-                - sh
-                - -c
-                - pidof node || exit 1
-              initialDelaySeconds: 30
-              periodSeconds: 60
-              timeoutSeconds: 5
-              failureThreshold: 3
-            readinessProbe:
-              exec:
-                command:
-                - sh
-                - -c
-                - pidof node || exit 1
-              initialDelaySeconds: 10
-              periodSeconds: 20
-              timeoutSeconds: 3
-              failureThreshold: 3
             envFrom:
             - configMapRef:
                 name: podverse-workers-config
