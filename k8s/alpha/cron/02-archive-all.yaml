@@ -1,4 +1,4 @@
-# File Version: 3
+# File Version: 4
 # Source: Jenkinsfile.aux_workers_archive_all
 # Schedule: 6 AM and 6 PM daily
 apiVersion: batch/v1
@@ -22,11 +22,11 @@ spec:
               allowPrivilegeEscalation: false
             resources:
               requests:
-                memory: "256Mi"
+                memory: "512Mi"
                 cpu: "100m"
               limits:
-                memory: "512Mi"
-                cpu: "250m"
+                memory: "1Gi"
+                cpu: "500m"
             envFrom:
             - configMapRef:
                 name: podverse-workers-config
