@@ -19,8 +19,11 @@ data:
   # We will log to stdout for Kubernetes, so we leave LOG_DIR empty or set to console conventions.
   # If the app requires a specific path, the volume mount in the next step will handle it, 
   # but standardizing on stdout is best for K3s/ArgoCD.
+  # TODO: Prefer sending logs to stdout so K3s / journald can collect them.
   LOG_LEVEL: "info"
   LOG_TIMER: "true"
+  # Keep LOG_DIR empty to force stdout logging in the app if supported.
+  LOG_DIR: ""
   
   # Database Networking (Internal K8s Service)
   DB_HOST: "podverse-db"

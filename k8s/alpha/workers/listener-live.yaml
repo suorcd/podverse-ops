@@ -63,6 +63,10 @@ spec:
             name: podverse-alpha-mq-opaque
         - secretRef:
             name: podverse-alpha-workers-opaque   
+        # TODO: The application creates a local `logs` directory and fails
+        # if it does not exist. Prefer logs to stdout so K3s/journald
+        # pick them up. Short-term workaround: mount an `emptyDir` at
+        # /opt/logs or ensure the image creates the directory at startup.
       #   volumeMounts:
       #   - name: firebase-config
       #     mountPath: /opt/config/firebase-key.json
