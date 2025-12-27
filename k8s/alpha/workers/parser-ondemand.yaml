@@ -17,9 +17,11 @@ spec:
       - name: worker
         image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.11-alpha.0
         command: ["npm", "run", "mq_rss_run_parser", "--", "-q", "rss-on-demand"]
+        # TODO: The worker process currently needs to run as root. Address
+        # this in the podverse-worker repo so images can run without root.
         securityContext:
           allowPrivilegeEscalation: false
-          runAsNonRoot: true
+          runAsNonRoot: false
           readOnlyRootFilesystem: true
           capabilities:
             drop:
