@@ -5,7 +5,7 @@ metadata:
   name: worker-listener-live
   namespace: podverse-alpha
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: worker-listener-live
@@ -18,6 +18,40 @@ spec:
       - name: worker
         image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.11-alpha.0
         command: ["npm", "run", "mq_rss_run_live_item_listener"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pgrep node || exit 1
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pgrep node || exit 1
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
         envFrom:
         - configMapRef:
             name: podverse-workers-config
