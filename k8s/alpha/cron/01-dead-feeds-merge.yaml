@@ -20,7 +20,35 @@ spec:
             # The command from your Jenkinsfile:
             # npm run podcast_index_dead_feeds_flag_and_merge
             command: ["npm", "run", "podcast_index_dead_feeds_flag_and_merge"]
-            
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "100m"
+              limits:
+                memory: "256Mi"
+                cpu: "250m"
+            livenessProbe:
+              exec:
+                command:
+                - sh
+                - -c
+                - ps aux | grep -q node || exit 1
+              initialDelaySeconds: 30
+              periodSeconds: 60
+              failureThreshold: 3
+            readinessProbe:
+              exec:
+                command:
+                - sh
+                - -c
+                - ps aux | grep -q node || exit 1
+              initialDelaySeconds: 10
+              periodSeconds: 20
+              failureThreshold: 3
+
             # Re-use the same env/secrets as the main worker deployment
             envFrom:
             - configMapRef:

@@ -16,6 +16,34 @@ spec:
           - name: worker
             image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.11-alpha.0
             command: ["npm", "run", "archive_all"]
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "100m"
+              limits:
+                memory: "256Mi"
+                cpu: "250m"
+            livenessProbe:
+              exec:
+                command:
+                - sh
+                - -c
+                - ps aux | grep -q node || exit 1
+              initialDelaySeconds: 30
+              periodSeconds: 60
+              failureThreshold: 3
+            readinessProbe:
+              exec:
+                command:
+                - sh
+                - -c
+                - ps aux | grep -q node || exit 1
+              initialDelaySeconds: 10
+              periodSeconds: 20
+              failureThreshold: 3
             envFrom:
             - configMapRef:
                 name: podverse-workers-config
