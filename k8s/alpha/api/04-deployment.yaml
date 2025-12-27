@@ -19,7 +19,7 @@ metadata:
     app: podverse-api
     environment: alpha
 spec:
-  replicas: 1
+  # replicas: 1
   selector:
     matchLabels:
       app: podverse-api
@@ -38,6 +38,21 @@ spec:
         - containerPort: 1234
           name: http
         
+        # Container security hardening
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+
+        # Resource requests and limits
+        resources:
+          requests:
+            memory: "192Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
         # Load non-sensitive config
         envFrom:
         - configMapRef:
