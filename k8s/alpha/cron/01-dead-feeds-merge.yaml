@@ -59,6 +59,11 @@ spec:
                 name: podverse-alpha-mq-opaque
             - secretRef:
                 name: podverse-alpha-workers-opaque
+            volumeMounts:
+            - name: logs-volume
+              mountPath: /logs
+            - name: logs-volume
+              mountPath: /opt/logs
             
           #   volumeMounts:
           #   - name: firebase-config
@@ -66,7 +71,9 @@ spec:
           #     subPath: firebase-key.json
           #     readOnly: true
 
-          # volumes:
+          volumes:
+          - name: logs-volume
+            emptyDir: {}
           # - name: firebase-config
           #   secret:
           #     secretName: podverse-alpha-workers-firebase-opaque
