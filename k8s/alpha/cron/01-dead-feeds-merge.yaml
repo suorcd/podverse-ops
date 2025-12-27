@@ -1,4 +1,4 @@
-# File Version: 2
+# File Version: 3
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -26,10 +26,10 @@ spec:
               allowPrivilegeEscalation: false
             resources:
               requests:
-                memory: "128Mi"
+                memory: "256Mi"
                 cpu: "100m"
               limits:
-                memory: "256Mi"
+                memory: "512Mi"
                 cpu: "250m"
             
             # Re-use the same env/secrets as the main worker deployment

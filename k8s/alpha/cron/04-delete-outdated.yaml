@@ -1,4 +1,4 @@
-# File Version: 2
+# File Version: 3
 # Source: Jenkinsfile.aux_workers_orm_on_demand_parser_event_delete_outdated
 # Schedule: 1 AM daily
 apiVersion: batch/v1
@@ -22,10 +22,10 @@ spec:
               allowPrivilegeEscalation: false
             resources:
               requests:
-                memory: "128Mi"
+                memory: "256Mi"
                 cpu: "100m"
               limits:
-                memory: "256Mi"
+                memory: "512Mi"
                 cpu: "250m"
             envFrom:
             - configMapRef:
