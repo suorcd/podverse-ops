@@ -39,7 +39,7 @@ spec:
             command:
             - sh
             - -c
-            - pgrep node || exit 1
+            - ps aux | grep -q node || exit 1
           initialDelaySeconds: 30
           periodSeconds: 20
           timeoutSeconds: 5
@@ -49,7 +49,7 @@ spec:
             command:
             - sh
             - -c
-            - pgrep node || exit 1
+            - ps aux | grep -q node || exit 1
           initialDelaySeconds: 10
           periodSeconds: 10
           timeoutSeconds: 3
