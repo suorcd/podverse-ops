@@ -26,6 +26,7 @@
             postgresql
             sops
             yamllint
+            datree
             yq
           ];
 
