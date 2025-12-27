@@ -1,4 +1,4 @@
-# File Version: 4
+# File Version: 5
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -47,6 +47,9 @@ spec:
               mountPath: /logs
             - name: logs-volume
               mountPath: /opt/logs
+            # Fix EROFS error by mounting a writable volume for the temp directory
+            - name: tmp-volume
+              mountPath: /opt/node_modules/podverse-external-services/dist/services/podcast-index/tmp
             
           #   volumeMounts:
           #   - name: firebase-config
@@ -56,6 +59,9 @@ spec:
 
           volumes:
           - name: logs-volume
+            emptyDir: {}
+          # Ephemeral volume for temporary file writing
+          - name: tmp-volume
             emptyDir: {}
           # - name: firebase-config
           #   secret:
