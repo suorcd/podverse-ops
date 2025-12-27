@@ -17,7 +17,7 @@ metadata:
     environment: alpha
 spec:
   progressDeadlineSeconds: 600
-  replicas: 1
+  # replicas: 2
   revisionHistoryLimit: 10
   strategy:
     rollingUpdate:
@@ -43,6 +43,16 @@ spec:
         envFrom:
         - configMapRef:
             name: podverse-web-config
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         ports:
         - containerPort: 3000
           name: http
