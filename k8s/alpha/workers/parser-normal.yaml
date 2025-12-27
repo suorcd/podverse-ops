@@ -69,12 +69,19 @@ spec:
         # if it does not exist. Prefer logs to stdout so K3s/journald
         # pick them up. Short-term workaround: mount an `emptyDir` at
         # /opt/logs or ensure the image creates the directory at startup.
+        volumeMounts:
+        - name: logs-volume
+          mountPath: /logs
+        - name: logs-volume
+          mountPath: /opt/logs
       #   volumeMounts:
       #   - name: firebase-config
       #     mountPath: /opt/config/firebase-key.json
       #     subPath: firebase-key.json
       #     readOnly: true
-      # volumes:
+      volumes:
+      - name: logs-volume
+        emptyDir: {}
       # - name: firebase-config
       #   secret:
       #     secretName: podverse-alpha-workers-firebase-opaque
