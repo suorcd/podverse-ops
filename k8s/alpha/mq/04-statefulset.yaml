@@ -49,12 +49,6 @@ spec:
         - name: mq-data
           mountPath: /var/lib/activemq-artemis
 
-  volumeClaimTemplates:
-  - metadata:
-      name: mq-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-path
-      resources:
-        requests:
-          storage: 2Gi
+      volumes:
+      - name: mq-data
+        emptyDir: {}
