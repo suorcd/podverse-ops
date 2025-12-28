@@ -1,4 +1,4 @@
-# File Version: 4
+# File Version: 5
 # Source: Jenkinsfile.aux_workers_orm_on_demand_parser_event_delete_outdated
 # Schedule: 1 AM daily
 apiVersion: batch/v1
@@ -9,6 +9,11 @@ metadata:
 spec:
   schedule: "0 1 * * *"
   concurrencyPolicy: Forbid
+  
+  # UPDATE: Keep the last 30 runs (30 days of history) for logs.
+  successfulJobsHistoryLimit: 30
+  failedJobsHistoryLimit: 10
+
   jobTemplate:
     spec:
       template:
@@ -41,15 +46,7 @@ spec:
               mountPath: /logs
             - name: logs-volume
               mountPath: /opt/logs
-          #   volumeMounts:
-          #   - name: firebase-config
-          #     mountPath: /opt/config/firebase-key.json
-          #     subPath: firebase-key.json
-          #     readOnly: true
           volumes:
           - name: logs-volume
             emptyDir: {}
-          # - name: firebase-config
-          #   secret:
-          #     secretName: podverse-workers-firebase-opaque
           restartPolicy: OnFailure
