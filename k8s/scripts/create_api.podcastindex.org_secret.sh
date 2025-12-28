@@ -10,9 +10,9 @@ echo "Running create_workers_secret.sh"
 read -p "Enter environment [alpha]: " ENVIRONMENT
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
-SECRET_NAME="podverse-${ENVIRONMENT}-workers-opaque"
+SECRET_NAME="podverse-api.podcastindex.org-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
-OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-opaque.enc.yaml"
+OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-api.podcastindex.org-opaque.enc.yaml"
 
 # ------------------------------------------------------------------
 # INPUTS

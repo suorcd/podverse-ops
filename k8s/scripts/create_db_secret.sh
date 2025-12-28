@@ -17,7 +17,7 @@ ENVIRONMENT="${ENVIRONMENT:-alpha}"
 # ------------------------------------------------------------------
 # CONFIGURATION
 # ------------------------------------------------------------------
-SECRET_NAME="podverse-${ENVIRONMENT}-db-opaque"
+SECRET_NAME="podverse-db-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-db-opaque.enc.yaml"
 

@@ -60,11 +60,11 @@ spec:
         - configMapRef:
             name: podverse-workers-config
         - secretRef:
-            name: podverse-alpha-db-opaque
+            name: podverse-db-opaque
         - secretRef:
-            name: podverse-alpha-mq-opaque
+            name: podverse-mq-opaque
         - secretRef:
-            name: podverse-alpha-workers-opaque            
+            name: podverse-api.podcastindex.org-opaque
         # TODO: The application creates a local `logs` directory and fails
         # if it does not exist. Prefer logs to stdout so K3s/journald
         # pick them up. Short-term workaround: mount an `emptyDir` at
@@ -84,4 +84,4 @@ spec:
         emptyDir: {}
       # - name: firebase-config
       #   secret:
-      #     secretName: podverse-alpha-workers-firebase-opaque
+      #     secretName: podverse-workers-firebase-opaque

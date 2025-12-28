@@ -10,7 +10,7 @@ echo "Running create_firebase_secret.sh"
 read -p "Enter environment [alpha]: " ENVIRONMENT
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
-SECRET_NAME="podverse-${ENVIRONMENT}-workers-firebase-opaque"
+SECRET_NAME="podverse-workers-firebase-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-workers-firebase-opaque.enc.yaml"
 

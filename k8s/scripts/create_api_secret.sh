@@ -10,7 +10,7 @@ echo "Running create_api_secret.sh"
 read -p "Enter environment [alpha]: " ENVIRONMENT
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
-SECRET_NAME="podverse-${ENVIRONMENT}-api-opaque"
+SECRET_NAME="podverse-api-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-api-opaque.enc.yaml"
 

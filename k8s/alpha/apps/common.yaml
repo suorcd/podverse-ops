@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: podverse-alpha-common
+  name: podverse-common
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io/background

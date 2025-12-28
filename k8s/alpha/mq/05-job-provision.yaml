@@ -28,7 +28,7 @@ spec:
         
         envFrom:
         - secretRef:
-            name: podverse-alpha-mq-opaque
+            name: podverse-mq-opaque
         
         volumeMounts:
         - name: scripts

@@ -11,7 +11,7 @@ echo "Running create_mq_secret.sh"
 read -p "Enter environment [alpha]: " ENVIRONMENT
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
-SECRET_NAME="podverse-${ENVIRONMENT}-mq-opaque"
+SECRET_NAME="podverse-mq-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
 OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-mq-opaque.enc.yaml"
 
