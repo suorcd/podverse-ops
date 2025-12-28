@@ -1,0 +1,31 @@
+# Version: 1
+# One-off Job to verify a specific account in the database.
+# Usage: This file is tracked by ArgoCD in the podverse-ops application.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ops-db-verify-account
+  namespace: podverse-alpha
+spec:
+  # Auto-delete the job 60s after it finishes to keep the cluster clean.
+  ttlSecondsAfterFinished: 60 
+  template:
+    spec:
+      containers:
+      - name: psql
+        image: postgres:18.1
+        # The command connects to the 'podverse-db' service and runs your specific SQL.
+        command: 
+          - "psql"
+          - "-h"
+          - "podverse-db"
+          - "-U"
+          - "postgres"
+          - "-d"
+          - "postgres"
+          - "-c"
+          - "UPDATE account SET verified = true where id = 1;"
+        envFrom:
+        - secretRef:
+            name: podverse-db-opaque
+      restartPolicy: Never
