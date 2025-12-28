@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io/background
 spec:
-  project: default
+  project: podverse
   source:
     repoURL: https://github.com/suorcd/podverse-ops.git
     targetRevision: feature/k3s01
