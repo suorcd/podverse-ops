@@ -15,7 +15,7 @@ spec:
         spec:
           containers:
           - name: worker
-            image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.11-alpha.0
+            image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.12-alpha.0
             command: ["npm", "run", "orm_on_demand_parser_event_generate_reports"]
             securityContext:
               readOnlyRootFilesystem: true

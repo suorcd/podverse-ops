@@ -32,7 +32,7 @@ spec:
       containers:
       - name: api
         # UPDATE THIS TAG to your desired version (e.g., v5.x.x)
-        image: ghcr.io/podverse/podverse-api/podverse-api:5.1.11-alpha.0
+        image: ghcr.io/podverse/podverse-api/podverse-api:5.1.12-alpha.0
         command: ["npm", "start"]
         ports:
         - containerPort: 1234
