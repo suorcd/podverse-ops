@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/suorcd/podverse-web-deploy:5.1.12-alpha.0
+        image: ghcr.io/suorcd/podverse-web-deploy:5.1.13-alpha.0-11
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
