@@ -7,8 +7,9 @@ kind: Kustomization
 
 # 1. Resources to include in this bundle
 resources:
-  - 01-services.yaml
-  - 02-deployments.yaml
+  - 01-configmap.yaml
+  - 02-services.yaml
+  - 03-deployments.yaml
   # Note: We will uncomment the secret line below once you run the generation script
   # - k8s/secrets/podverse-keyvaldb-secret.enc.yaml
 
