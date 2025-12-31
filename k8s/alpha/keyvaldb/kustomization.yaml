@@ -1,4 +1,4 @@
-# Version: 1
+# Version: 2
 # Filename: kustomization.yaml
 # Description: Bundles resources and acts as the "Variable" manager for images.
 
