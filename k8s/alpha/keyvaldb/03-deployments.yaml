@@ -7,7 +7,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: podverse-keyvaldb
-  namespace: podverse-alpha
   labels:
     app: valkey
     environment: alpha
@@ -54,7 +53,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: podverse-keyvaldb-gui
-  namespace: podverse-alpha
   labels:
     app: valkey-gui
     environment: alpha
