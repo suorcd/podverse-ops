@@ -91,6 +91,8 @@ spec:
         # Load DB secrets (DB_READ_PASSWORD, etc.)
         - secretRef:
             name: podverse-db-opaque
+        - secretRef:
+            name: podverse-keyvaldb-opaque
         # Load MQ secrets (MESSAGE_QUEUE_USERNAME, MESSAGE_QUEUE_PASSWORD)
         - secretRef:
             name: podverse-mq-opaque
