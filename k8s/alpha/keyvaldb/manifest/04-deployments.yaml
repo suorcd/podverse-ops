@@ -1,7 +1,7 @@
-# Version: 2
+# Version: 3
 # Filename: 04-valkey-deployments.yaml
 # Description: Deployments for Valkey DB and RedisInsight GUI.
-# UPDATE: Switched storage to ephemeral (emptyDir).
+# UPDATE: Removed image tags to strictly enforce Kustomize version management.
 
 apiVersion: apps/v1
 kind: Deployment
@@ -23,7 +23,8 @@ spec:
     spec:
       containers:
         - name: valkey
-          image: valkey/valkey:9.0.1
+          # PLACEHOLDER: Kustomize will find this name and append the tag (e.g., :9.0.1)
+          image: valkey/valkey
           command: ["valkey-server", "--save", "900 1", "--appendonly", "yes"]
           ports:
             - containerPort: 6379
@@ -69,6 +70,7 @@ spec:
     spec:
       containers:
         - name: gui
-          image: redislabs/redisinsight:latest
+          # PLACEHOLDER: Kustomize will find this name and append the tag (e.g., :latest)
+          image: redislabs/redisinsight
           ports:
             - containerPort: 5540
