@@ -7,8 +7,8 @@ kind: Kustomization
 
 # 1. Resources to include in this bundle
 resources:
-  - 03-services.yaml
-  - 04-deployments.yaml
+  - 01-services.yaml
+  - 02-deployments.yaml
   # Note: We will uncomment the secret line below once you run the generation script
   # - k8s/secrets/podverse-alpha-keyvaldb-secret.enc.yaml
 
@@ -18,7 +18,7 @@ namespace: podverse-alpha
 # 3. Image Variables
 # Change the 'newTag' here to update versions across all files.
 images:
-  - name: valkey/valkey         # The placeholder used in 04-valkey-deployments.yaml
+  - name: valkey/valkey         # The placeholder used in 02-deployments.yaml
     newTag: "9.0.1"             # The actual version to deploy
   - name: redislabs/redisinsight
     newTag: "latest"
