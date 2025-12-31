@@ -6,7 +6,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: podverse-alpha-keyvaldb
+  name: podverse-keyvaldb
   namespace: podverse-alpha
   labels:
     app: valkey
@@ -30,7 +30,7 @@ spec:
             - containerPort: 6379
           envFrom:
             - secretRef:
-                name: podverse-alpha-keyvaldb-secret
+                name: podverse-keyvaldb-opaque
           volumeMounts:
             - name: data
               mountPath: /var/lib/valkey
@@ -53,7 +53,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: podverse-alpha-keyvaldb-gui
+  name: podverse-keyvaldb-gui
   namespace: podverse-alpha
   labels:
     app: valkey-gui

@@ -10,7 +10,7 @@ resources:
   - 01-services.yaml
   - 02-deployments.yaml
   # Note: We will uncomment the secret line below once you run the generation script
-  # - k8s/secrets/podverse-alpha-keyvaldb-secret.enc.yaml
+  # - k8s/secrets/podverse-keyvaldb-secret.enc.yaml
 
 # 2. Namespace to apply to all resources (optional, but good practice)
 namespace: podverse-alpha

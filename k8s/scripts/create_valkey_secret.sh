@@ -13,9 +13,9 @@ read -p "Enter environment [alpha]: " ENVIRONMENT
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
 # Matches the secret name defined in podverse-alpha.yaml
-SECRET_NAME="podverse-${ENVIRONMENT}-keyvaldb-secret"
+SECRET_NAME="podverse-keyvaldb-opaque"
 NAMESPACE="podverse-${ENVIRONMENT}"
-OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-keyvaldb-secret.enc.yaml"
+OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-keyvaldb-opaque.enc.yaml"
 
 # ------------------------------------------------------------------
 # INPUTS
