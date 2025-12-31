@@ -1,0 +1,132 @@
+# Version: 1
+# Filename: podverse-alpha.yaml
+# Description: Initial conversion of Podverse Valkey stack to Kubernetes manifests.
+
+---
+# 2. Secret: Replaces your env_file
+# ACTION REQUIRED: Add your actual variables under 'stringData'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: podverse-alpha-keyvaldb-secret
+  namespace: podverse-alpha
+type: Opaque
+stringData:
+  # Example placeholder - replace with contents of podverse-alpha-keyvaldb.env
+  # PASSWORD: "your-super-secret-password"
+  EXAMPLE_VAR: "value"
+
+---
+# 3. PersistentVolumeClaim: Replaces your named volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: podverse-alpha-keyvaldb-data
+  namespace: podverse-alpha
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjusted to a reasonable default; increase if needed
+  # k3s comes with 'local-path' storage class by default
+
+---
+# 4. Service (Database): Internal networking for the DB
+apiVersion: v1
+kind: Service
+metadata:
+  name: podverse-alpha-keyvaldb
+  namespace: podverse-alpha
+spec:
+  selector:
+    app: valkey
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP # Only accessible inside the cluster
+
+---
+# 5. Deployment (Database): The Valkey Application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podverse-alpha-keyvaldb
+  namespace: podverse-alpha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: valkey
+  template:
+    metadata:
+      labels:
+        app: valkey
+    spec:
+      containers:
+        - name: valkey
+          image: valkey/valkey:9.0.1
+          command: ["valkey-server", "--save", "900 1", "--appendonly", "yes"]
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - secretRef:
+                name: podverse-alpha-keyvaldb-secret
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/valkey
+          livenessProbe:
+            exec:
+              command: ["valkey-cli", "ping"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["valkey-cli", "ping"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: podverse-alpha-keyvaldb-data
+
+---
+# 6. Service (GUI): Exposing RedisInsight
+apiVersion: v1
+kind: Service
+metadata:
+  name: podverse-alpha-keyvaldb-gui
+  namespace: podverse-alpha
+spec:
+  selector:
+    app: valkey-gui
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 5540
+  # LoadBalancer will use the k3s ServiceLB (Klipper) to expose this on your node's IP
+  type: LoadBalancer 
+
+---
+# 7. Deployment (GUI): The RedisInsight Application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podverse-alpha-keyvaldb-gui
+  namespace: podverse-alpha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: valkey-gui
+  template:
+    metadata:
+      labels:
+        app: valkey-gui
+    spec:
+      containers:
+        - name: gui
+          image: redislabs/redisinsight:latest
+          ports:
+            - containerPort: 5540
