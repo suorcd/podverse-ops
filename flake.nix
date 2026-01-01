@@ -22,6 +22,7 @@
             kompose
             kubectl
             kubernetes-helm
+	    kustomize
             moreutils
             postgresql
             sops
