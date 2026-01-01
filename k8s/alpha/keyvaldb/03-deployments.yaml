@@ -9,7 +9,6 @@ metadata:
   name: podverse-keyvaldb
   labels:
     app: valkey
-    environment: alpha
 spec:
   replicas: 1
   selector:
@@ -55,7 +54,6 @@ metadata:
   name: podverse-keyvaldb-gui
   labels:
     app: valkey-gui
-    environment: alpha
 spec:
   replicas: 1
   selector:

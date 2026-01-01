@@ -4,7 +4,6 @@ metadata:
   name: podverse-keyvaldb-config
   labels:
     app: podverse-keyvaldb
-    environment: alpha
 data:
   ######
   ##### podverse-keyvaldb

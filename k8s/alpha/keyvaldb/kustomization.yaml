@@ -16,6 +16,10 @@ resources:
 # 2. Namespace to apply to all resources (optional, but good practice)
 namespace: podverse-alpha
 
+commonLabels:
+  app: podverse-keyvaldb
+  environment: alpha
+
 # 3. Image Variables
 # Change the 'newTag' here to update versions across all files.
 images:

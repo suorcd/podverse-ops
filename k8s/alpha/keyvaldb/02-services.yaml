@@ -8,7 +8,6 @@ metadata:
   name: podverse-keyvaldb
   labels:
     app: valkey
-    environment: alpha
 spec:
   # Internal traffic only for the database
   type: ClusterIP
@@ -26,7 +25,6 @@ metadata:
   name: podverse-keyvaldb-gui
   labels:
     app: valkey-gui
-    environment: alpha
 spec:
   # LoadBalancer exposes this on the node's IP (accessible via Tailscale if node is joined)
   type: LoadBalancer
