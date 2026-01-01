@@ -1,21 +1,28 @@
-# Version: 1
-# Application for API
+# Version: 2
+# Child Application: API
+# This application manages the core backend API for Podverse.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: podverse-api
+  name: podverse-alpha-api
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io/background
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:
+    # Points to your git repository
     repoURL: https://github.com/suorcd/podverse-ops.git
     targetRevision: feature/k3s01
+    
+    # Path to the API manifests (Deployment, Service, ConfigMap)
     path: k8s/alpha/api
+
   destination:
     server: https://kubernetes.default.svc
     namespace: podverse-alpha
+
   syncPolicy:
     automated:
       prune: true
