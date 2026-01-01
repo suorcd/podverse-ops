@@ -1,0 +1,11 @@
+# Version: 1
+# This kustomization file bundles common infrastructure components.
+# It includes the namespace, ingress rules, and TLS security policies.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - 00-namespace.yaml
+  - 01-ingress.yaml
+  - 02-tls-options.yaml
