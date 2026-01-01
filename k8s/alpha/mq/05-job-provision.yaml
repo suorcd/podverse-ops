@@ -5,11 +5,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: podverse-mq-provisioner
-  namespace: podverse-alpha
   labels:
-    app: podverse-mq
     component: provisioner
-    environment: alpha
   annotations:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
@@ -17,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: podverse-mq-provisioner
+        component: provisioner
     spec:
       restartPolicy: OnFailure
       containers:

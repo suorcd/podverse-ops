@@ -7,10 +7,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: podverse-mq
-  namespace: podverse-alpha
-  labels:
-    app: podverse-mq
-    environment: alpha
 spec:
   serviceName: "podverse-mq"
   replicas: 1
@@ -21,7 +17,6 @@ spec:
     metadata:
       labels:
         app: podverse-mq
-        environment: alpha
     spec:
       containers:
       - name: artemis
