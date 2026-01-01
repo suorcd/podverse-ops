@@ -22,7 +22,7 @@
             kompose
             kubectl
             kubernetes-helm
-	    kustomize
+            kustomize
             moreutils
             postgresql
             sops
@@ -30,6 +30,7 @@
             datree
             yq
             pwgen
+            shellcheck
           ];
 
           shellHook = ''
