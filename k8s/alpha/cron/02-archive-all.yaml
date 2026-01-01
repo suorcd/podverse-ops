@@ -5,7 +5,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: worker-archive-all
-  namespace: podverse-alpha
 spec:
   schedule: "0 6,18 * * *"
   concurrencyPolicy: Forbid
@@ -15,7 +14,7 @@ spec:
         spec:
           containers:
           - name: worker
-            image: ghcr.io/podverse/podverse-workers/podverse-workers:5.1.13-alpha.1
+            image: ghcr.io/podverse/podverse-workers/podverse-workers
             command: ["npm", "run", "archive_all"]
             securityContext:
               readOnlyRootFilesystem: true
