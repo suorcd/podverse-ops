@@ -7,9 +7,9 @@ kind: Kustomization
 
 # 1. Resources to include
 resources:
-  - 01-configmap.yaml
-  - 03-service.yaml
-  - 04-statefulset.yaml
+  - ../../base/db/01-configmap.yaml
+  - ../../base/db/03-service.yaml
+  - ../../base/db/04-statefulset.yaml
   # Note: 02-secret is usually generated via script or sealed secrets, 
   # so it is often excluded here if not present as a static file.
 

@@ -6,13 +6,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - 03-configmap.yaml
-  - consumer-dlq.yaml
-  - listener-live.yaml
-  - parser-live.yaml
-  - parser-normal.yaml
-  - parser-ondemand.yaml
-
+  - ../../base/workers/03-configmap.yaml
+  - ../../base/workers/consumer-dlq.yaml
+  - ../../base/workers/listener-live.yaml
+  - ../../base/workers/parser-live.yaml
+  - ../../base/workers/parser-normal.yaml
+  - ../../base/workers/parser-ondemand.yaml
 namespace: podverse-alpha
 
 images:
