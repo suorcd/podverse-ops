@@ -32,6 +32,11 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/valkey
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
           livenessProbe:
             exec:
               command: ["valkey-cli", "ping"]
@@ -70,3 +75,8 @@ spec:
           image: redislabs/redisinsight
           ports:
             - containerPort: 5540
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
