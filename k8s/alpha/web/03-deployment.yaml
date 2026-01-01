@@ -53,6 +53,9 @@ spec:
         - containerPort: 3000
           name: http
           protocol: TCP
+        volumeMounts:
+        - name: nextjs-cache
+          mountPath: /opt/app/.next/cache
         livenessProbe:
           httpGet:
             path: /
@@ -73,6 +76,9 @@ spec:
           successThreshold: 1
           failureThreshold: 3
           timeoutSeconds: 5
+      volumes:
+      - name: nextjs-cache
+        emptyDir: {}
       imagePullSecrets:
       - name: github-registry-secret
       dnsPolicy: ClusterFirst
