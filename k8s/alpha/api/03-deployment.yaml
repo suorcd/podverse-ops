@@ -15,9 +15,6 @@ metadata:
     argocd.argoproj.io/compare-options: "IgnoreExtraneous"
     # This is the endpoint that will show up as a clickable link in ArgoCD UI
     link.argocd.argoproj.io/external-link: https://api-alpha-podverse.k.ser.ink/
-  labels:
-    app: podverse-api
-    environment: alpha
 spec:
   # replicas: 1
   selector:
@@ -25,9 +22,6 @@ spec:
       app: podverse-api
   template:
     metadata:
-      labels:
-        app: podverse-api
-        environment: alpha
     spec:
       containers:
       - name: api

@@ -7,9 +7,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: podverse-db
-  labels:
-    app: podverse-db
-    environment: alpha
 spec:
   serviceName: "podverse-db"
   replicas: 1
@@ -17,10 +14,6 @@ spec:
     matchLabels:
       app: podverse-db
   template:
-    metadata:
-      labels:
-        app: podverse-db
-        environment: alpha
     spec:
       # Pin the database to a specific node using its hostname.
       # Run 'kubectl get nodes' to see your node names.

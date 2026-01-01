@@ -6,9 +6,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: podverse-db
-  labels:
-    app: podverse-db
-    environment: alpha
 spec:
   # ClusterIP makes this reachable ONLY from inside the cluster (secure default).
   type: ClusterIP

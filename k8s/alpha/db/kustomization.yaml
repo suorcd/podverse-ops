@@ -16,6 +16,10 @@ resources:
 # 2. Namespace
 namespace: podverse-alpha
 
+commonLabels:
+  app: podverse-db
+  environment: alpha
+
 # 3. Image Variables
 images:
   - name: postgres

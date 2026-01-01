@@ -6,9 +6,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: podverse-db-init-scripts
-  labels:
-    app: podverse-db
-    environment: alpha
 data:
   # This script creates the read/write users.
   # It expects environment variables (POSTGRES_READ_PASSWORD, etc.) to be set in the container.
