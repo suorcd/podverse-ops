@@ -31,7 +31,7 @@ if [ "$AUTO_GEN" = true ]; then
     ENVIRONMENT="${1:-alpha}"
     echo "Auto-generating with environment: $ENVIRONMENT"
 else
-    read -p "Enter environment [alpha]: " ENVIRONMENT
+    read -r -p "Enter environment [alpha]: " ENVIRONMENT
 fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
@@ -67,25 +67,25 @@ else
 
     echo ""
     echo "--- DBNAME INPUTS ---"
-    read -p "POSTGRES_DB [${DEFAULT_DB}]: " INPUT_DB
+    read -r -p "POSTGRES_DB [${DEFAULT_DB}]: " INPUT_DB
     POSTGRES_DB="${INPUT_DB:-$DEFAULT_DB}"
     echo ""
     echo "--- USERNAME INPUTS ---"
-    read -p "POSTGRES_USER [${DEFAULT_USER}]: " INPUT_USER
+    read -r -p "POSTGRES_USER [${DEFAULT_USER}]: " INPUT_USER
     POSTGRES_USER="${INPUT_USER:-$DEFAULT_USER}"
 
     echo ""
     echo "--- SENSITIVE INPUTS ---"
     # -s hides input
-    read -s -p "Enter POSTGRES_PASSWORD (Superuser): " POSTGRES_PASSWORD
+    read -r -s -p "Enter POSTGRES_PASSWORD (Superuser): " POSTGRES_PASSWORD
     echo ""
     if [ -z "$POSTGRES_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
 
-    read -s -p "Enter POSTGRES_READ_PASSWORD (Read-only User): " POSTGRES_READ_PASSWORD
+    read -r -s -p "Enter POSTGRES_READ_PASSWORD (Read-only User): " POSTGRES_READ_PASSWORD
     echo ""
     if [ -z "$POSTGRES_READ_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
 
-    read -s -p "Enter POSTGRES_READ_WRITE_PASSWORD (App User): " POSTGRES_READ_WRITE_PASSWORD
+    read -r -s -p "Enter POSTGRES_READ_WRITE_PASSWORD (App User): " POSTGRES_READ_WRITE_PASSWORD
     echo ""
     if [ -z "$POSTGRES_READ_WRITE_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
 fi

@@ -7,7 +7,6 @@ set -euo pipefail
 # ------------------------------------------------------------------
 # CONFIGURATION
 # ------------------------------------------------------------------
-PASSWORD_LENGTH=20
 AUTO_GEN=false
 
 # Check for --auto-gen flag
@@ -23,7 +22,7 @@ if [ "$AUTO_GEN" = true ]; then
     ENVIRONMENT="${1:-alpha}"
     echo "Auto-generating with environment: $ENVIRONMENT"
 else
-    read -p "Enter environment [alpha]: " ENVIRONMENT
+    read -r -p "Enter environment [alpha]: " ENVIRONMENT
 fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
@@ -55,7 +54,7 @@ if [ "$AUTO_GEN" = true ]; then
     echo "Using Firebase key: $FILE_PATH"
 else
     echo "Please enter the path to your 'firebase-key.json' file:"
-    read -e -p "Path: " FILE_PATH
+    read -r -e -p "Path: " FILE_PATH
 fi
 
 # Verify file exists

@@ -28,7 +28,7 @@ if [ "$AUTO_GEN" = true ]; then
     ENVIRONMENT="${1:-alpha}"
     echo "Auto-generating with environment: $ENVIRONMENT"
 else
-    read -p "Enter environment [alpha]: " ENVIRONMENT
+    read -r -p "Enter environment [alpha]: " ENVIRONMENT
 fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
@@ -48,13 +48,13 @@ if [ "$AUTO_GEN" = true ]; then
 else
     echo ""
     echo "--- PODCAST INDEX API KEY---"
-    read -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
+    read -r -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
     echo ""
     if [ -z "$PI_AUTH" ]; then echo "Error: Auth Key required."; exit 1; fi
 
     echo "--- PODCAST INDEX API SECRET---"
     echo ""
-    read -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
+    read -r -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
     echo ""
     if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
 fi

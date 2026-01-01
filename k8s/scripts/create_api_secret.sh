@@ -28,7 +28,7 @@ if [ "$AUTO_GEN" = true ]; then
     ENVIRONMENT="${1:-alpha}"
     echo "Auto-generating with environment: $ENVIRONMENT"
 else
-    read -p "Enter environment [alpha]: " ENVIRONMENT
+    read -r -p "Enter environment [alpha]: " ENVIRONMENT
 fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
@@ -47,13 +47,13 @@ if [ "$AUTO_GEN" = true ]; then
     echo "  MAILER_PASSWORD: [generated]"
 else
     echo "--- AUTHENTICATION ---"
-    read -s -p "Enter AUTH_JWT_SECRET (Random String): " AUTH_JWT_SECRET
+    read -r -s -p "Enter AUTH_JWT_SECRET (Random String): " AUTH_JWT_SECRET
     echo ""
     if [ -z "$AUTH_JWT_SECRET" ]; then echo "Error: JWT Secret required."; exit 1; fi
 
     echo ""
     echo "--- MAILER (Optional - Press Enter to skip) ---"
-    read -s -p "Enter MAILER_PASSWORD: " MAILER_PASSWORD
+    read -r -s -p "Enter MAILER_PASSWORD: " MAILER_PASSWORD
     echo ""
 fi
 

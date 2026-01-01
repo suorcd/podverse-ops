@@ -29,7 +29,7 @@ if [ "$AUTO_GEN" = true ]; then
     ENVIRONMENT="${1:-alpha}"
     echo "Auto-generating with environment: $ENVIRONMENT"
 else
-    read -p "Enter environment [alpha]: " ENVIRONMENT
+    read -r -p "Enter environment [alpha]: " ENVIRONMENT
 fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
@@ -52,12 +52,12 @@ else
     echo ""
     echo "--- USERNAME INPUTS ---"
 
-    read -p "Enter MQ Username [${DEFAULT_USER}]: " INPUT_USER
+    read -r -p "Enter MQ Username [${DEFAULT_USER}]: " INPUT_USER
     MQ_USER="${INPUT_USER:-$DEFAULT_USER}"
 
     echo ""
     echo "--- SENSITIVE INPUTS ---"
-    read -s -p "Enter MQ Password: " MQ_PASSWORD
+    read -r -s -p "Enter MQ Password: " MQ_PASSWORD
     echo ""
     if [ -z "$MQ_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
 fi

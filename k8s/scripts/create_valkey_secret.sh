@@ -30,7 +30,7 @@ if [ "$AUTO_GEN" = true ]; then
     ENVIRONMENT="${1:-alpha}"
     echo "Auto-generating with environment: $ENVIRONMENT"
 else
-    read -p "Enter environment [alpha]: " ENVIRONMENT
+    read -r -p "Enter environment [alpha]: " ENVIRONMENT
 fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
@@ -49,7 +49,7 @@ if [ "$AUTO_GEN" = true ]; then
 else
     echo ""
     echo "--- SENSITIVE INPUTS ---"
-    read -s -p "Enter Valkey Password: " VALKEY_PASSWORD
+    read -r -s -p "Enter Valkey Password: " VALKEY_PASSWORD
     echo ""
     if [ -z "$VALKEY_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
 fi
