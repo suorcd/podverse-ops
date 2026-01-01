@@ -86,6 +86,13 @@ spec:
         # when the database is first created.
         - name: init-scripts
           mountPath: /docker-entrypoint-initdb.d
+
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          runAsUser: 999
+          runAsGroup: 999
+          runAsNonRoot: true
       
       volumes:
       - name: init-scripts
