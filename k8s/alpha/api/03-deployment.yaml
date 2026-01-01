@@ -8,7 +8,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: podverse-api
-  namespace: podverse-alpha
   annotations:
     # ArgoCD Application endpoint annotation for clickable link
     argocd.argoproj.io/refresh: "hard"
