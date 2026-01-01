@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: podverse-web
-  namespace: podverse-alpha
 
   annotations:
     # ArgoCD Application endpoint annotation for clickable link
@@ -12,9 +11,6 @@ metadata:
     argocd.argoproj.io/compare-options: "IgnoreExtraneous"
     # This is the endpoint that will show up as a clickable link in ArgoCD UI
     link.argocd.argoproj.io/external-link: https://alpha-podverse.k.ser.ink/
-  labels:
-    app: podverse-web
-    environment: alpha
 spec:
   progressDeadlineSeconds: 600
   # replicas: 2
@@ -35,7 +31,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/suorcd/podverse-web-deploy:5.1.13-alpha.0-11
+        image: ghcr.io/suorcd/podverse-web-deploy
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
