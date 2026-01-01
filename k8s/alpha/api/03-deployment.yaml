@@ -36,9 +36,9 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
-          # TODO: The following caused the error "container has runAsNonRoot and image will run as root"
-          # The container image currently runs as UID 0. Once the image is updated to run as a non-root
-          # user we should re-enable this. For now it's commented out to allow deployment.
+          # Explicitly set UID/GID to satisfy runAsNonRoot when image user is named (node)
+          runAsUser: 1000
+          runAsGroup: 1000
           runAsNonRoot: true
 
         # TODO (upstream repo - podverse-api / podverse-helpers):
