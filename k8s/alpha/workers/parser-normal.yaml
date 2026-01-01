@@ -22,8 +22,10 @@ spec:
         # TODO: The worker process currently needs to run as root. Address
         # this in the podverse-worker repo so images can run without root.
         securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
           allowPrivilegeEscalation: false
-          runAsNonRoot: false
+          runAsNonRoot: true
           readOnlyRootFilesystem: true
           capabilities:
             drop:
