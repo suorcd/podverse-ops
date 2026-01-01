@@ -1,8 +1,6 @@
-# Version: 2
+# Version: 3
 # Root Application (App of Apps Pattern)
-# UPDATE: Changed path to 'k8s/alpha/apps' to load child applications.
-# Recursive is not strictly needed here if all child apps are in the root of 'apps/', 
-# but 'recurse: true' is safe to keep.
+# This file tells ArgoCD to look at the 'apps/' directory to find other applications to deploy.
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -12,12 +10,15 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  # The project within ArgoCD for grouping apps
   project: podverse
   source:
+    # Change this URL to your local Gitea instance (e.g., http://gitea.ser.ink/suorcd/podverse-ops.git) 
+    # when you migrate the repository.
     repoURL: https://github.com/suorcd/podverse-ops.git
     targetRevision: feature/k3s01
     
-    # POINT TO THE APPS DIRECTORY
+    # This path points to where the "Child" App manifests are stored
     path: k8s/alpha/apps
     
     directory:
@@ -27,10 +28,10 @@ spec:
     server: https://kubernetes.default.svc
     namespace: podverse-alpha
   
-  # Sync Policy for the Root App
+  # Sync Policy: Automated means ArgoCD will watch Git and apply changes immediately.
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: true     # Deletes resources in K8s if they are removed from Git
+      selfHeal: true  # Overwrites manual 'kubectl edit' changes to match Git
     syncOptions:
       - CreateNamespace=true
