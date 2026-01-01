@@ -29,6 +29,7 @@
             yamllint
             datree
             yq
+            pwgen
           ];
 
           shellHook = ''
