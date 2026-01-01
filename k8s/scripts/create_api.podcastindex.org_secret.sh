@@ -4,10 +4,32 @@
 
 set -euo pipefail
 
+# ------------------------------------------------------------------
+# CONFIGURATION
+# ------------------------------------------------------------------
+PASSWORD_LENGTH=20
+AUTO_GEN=false
+
+# Check for --auto-gen flag
+if [[ "${1:-}" == "--auto-gen" ]]; then
+    AUTO_GEN=true
+    shift || true
+fi
+
+# Generate secure random password
+generate_password() {
+    pwgen -s "$PASSWORD_LENGTH" 1
+}
+
 echo "Running create_workers_secret.sh"
 
 # ENVIRONMENT INPUT
-read -p "Enter environment [alpha]: " ENVIRONMENT
+if [ "$AUTO_GEN" = true ]; then
+    ENVIRONMENT="${1:-alpha}"
+    echo "Auto-generating with environment: $ENVIRONMENT"
+else
+    read -p "Enter environment [alpha]: " ENVIRONMENT
+fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
 SECRET_NAME="podverse-api.podcastindex.org-opaque"
@@ -17,17 +39,25 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-api.podcastindex.org-opaque.e
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-echo ""
-echo "--- PODCAST INDEX API KEY---"
-read -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
-echo ""
-if [ -z "$PI_AUTH" ]; then echo "Error: Auth Key required."; exit 1; fi
+if [ "$AUTO_GEN" = true ]; then
+    echo "Auto-generating secrets..."
+    PI_AUTH=$(generate_password)
+    PI_SECRET=$(generate_password)
+    echo "  PODCAST_INDEX_AUTH_KEY: [generated]"
+    echo "  PODCAST_INDEX_SECRET_KEY: [generated]"
+else
+    echo ""
+    echo "--- PODCAST INDEX API KEY---"
+    read -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
+    echo ""
+    if [ -z "$PI_AUTH" ]; then echo "Error: Auth Key required."; exit 1; fi
 
-echo "--- PODCAST INDEX API SECRET---"
-echo ""
-read -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
-echo ""
-if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
+    echo "--- PODCAST INDEX API SECRET---"
+    echo ""
+    read -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
+    echo ""
+    if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
+fi
 
 # --- GENERATION ---
 mkdir -p "$(dirname "$OUTPUT_FILE")"

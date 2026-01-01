@@ -6,10 +6,32 @@
 
 set -euo pipefail
 
+# ------------------------------------------------------------------
+# CONFIGURATION
+# ------------------------------------------------------------------
+PASSWORD_LENGTH=20
+AUTO_GEN=false
+
+# Check for --auto-gen flag
+if [[ "${1:-}" == "--auto-gen" ]]; then
+    AUTO_GEN=true
+    shift || true
+fi
+
+# Generate secure random password
+generate_password() {
+    pwgen -s "$PASSWORD_LENGTH" 1
+}
+
 echo "Running create_valkey_secret.sh"
 
 # ENVIRONMENT INPUT
-read -p "Enter environment [alpha]: " ENVIRONMENT
+if [ "$AUTO_GEN" = true ]; then
+    ENVIRONMENT="${1:-alpha}"
+    echo "Auto-generating with environment: $ENVIRONMENT"
+else
+    read -p "Enter environment [alpha]: " ENVIRONMENT
+fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
 # Matches the secret name defined in podverse-alpha.yaml
@@ -20,11 +42,17 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-keyvaldb-opaque.enc.yaml"
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-echo ""
-echo "--- SENSITIVE INPUTS ---"
-read -s -p "Enter Valkey Password: " VALKEY_PASSWORD
-echo ""
-if [ -z "$VALKEY_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+if [ "$AUTO_GEN" = true ]; then
+    echo "Auto-generating secrets..."
+    VALKEY_PASSWORD=$(generate_password)
+    echo "  VALKEY_PASSWORD: [generated]"
+else
+    echo ""
+    echo "--- SENSITIVE INPUTS ---"
+    read -s -p "Enter Valkey Password: " VALKEY_PASSWORD
+    echo ""
+    if [ -z "$VALKEY_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+fi
 
 # --- GENERATION ---
 mkdir -p "$(dirname "$OUTPUT_FILE")"

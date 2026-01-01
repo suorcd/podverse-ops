@@ -5,13 +5,34 @@
 
 set -euo pipefail
 
-echo "Running create_db_secret.sh"
+# ------------------------------------------------------------------
+# CONFIGURATION
+# ------------------------------------------------------------------
+PASSWORD_LENGTH=20
+AUTO_GEN=false
 
+# Check for --auto-gen flag
+if [[ "${1:-}" == "--auto-gen" ]]; then
+    AUTO_GEN=true
+    shift || true
+fi
+
+# Generate secure random password
+generate_password() {
+    pwgen -s "$PASSWORD_LENGTH" 1
+}
+
+echo "Running create_db_secret.sh"
 
 # ------------------------------------------------------------------
 # ENVIRONMENT INPUT
 # ------------------------------------------------------------------
-read -p "Enter environment [alpha]: " ENVIRONMENT
+if [ "$AUTO_GEN" = true ]; then
+    ENVIRONMENT="${1:-alpha}"
+    echo "Auto-generating with environment: $ENVIRONMENT"
+else
+    read -p "Enter environment [alpha]: " ENVIRONMENT
+fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
 # ------------------------------------------------------------------
@@ -24,35 +45,50 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-db-opaque.enc.yaml"
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-echo "You are generating the PostgreSQL credentials."
-echo "Press Enter to use the default value."
-echo ""
-
 DEFAULT_DB="postgres"
 DEFAULT_USER="postgres"
-echo ""
-echo "--- DBNAME INPUTS ---"
-read -p "POSTGRES_DB [${DEFAULT_DB}]: " INPUT_DB
-POSTGRES_DB="${INPUT_DB:-$DEFAULT_DB}"
-echo ""
-echo "--- USERNAME INPUTS ---"
-read -p "POSTGRES_USER [${DEFAULT_USER}]: " INPUT_USER
-POSTGRES_USER="${INPUT_USER:-$DEFAULT_USER}"
 
-echo ""
-echo "--- SENSITIVE INPUTS ---"
-# -s hides input
-read -s -p "Enter POSTGRES_PASSWORD (Superuser): " POSTGRES_PASSWORD
-echo ""
-if [ -z "$POSTGRES_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+if [ "$AUTO_GEN" = true ]; then
+    echo "Auto-generating secrets..."
+    POSTGRES_DB="$DEFAULT_DB"
+    POSTGRES_USER="$DEFAULT_USER"
+    POSTGRES_PASSWORD=$(generate_password)
+    POSTGRES_READ_PASSWORD=$(generate_password)
+    POSTGRES_READ_WRITE_PASSWORD=$(generate_password)
+    echo "  POSTGRES_DB: $POSTGRES_DB"
+    echo "  POSTGRES_USER: $POSTGRES_USER"
+    echo "  POSTGRES_PASSWORD: [generated]"
+    echo "  POSTGRES_READ_PASSWORD: [generated]"
+    echo "  POSTGRES_READ_WRITE_PASSWORD: [generated]"
+else
+    echo "You are generating the PostgreSQL credentials."
+    echo "Press Enter to use the default value."
+    echo ""
 
-read -s -p "Enter POSTGRES_READ_PASSWORD (Read-only User): " POSTGRES_READ_PASSWORD
-echo ""
-if [ -z "$POSTGRES_READ_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+    echo ""
+    echo "--- DBNAME INPUTS ---"
+    read -p "POSTGRES_DB [${DEFAULT_DB}]: " INPUT_DB
+    POSTGRES_DB="${INPUT_DB:-$DEFAULT_DB}"
+    echo ""
+    echo "--- USERNAME INPUTS ---"
+    read -p "POSTGRES_USER [${DEFAULT_USER}]: " INPUT_USER
+    POSTGRES_USER="${INPUT_USER:-$DEFAULT_USER}"
 
-read -s -p "Enter POSTGRES_READ_WRITE_PASSWORD (App User): " POSTGRES_READ_WRITE_PASSWORD
-echo ""
-if [ -z "$POSTGRES_READ_WRITE_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+    echo ""
+    echo "--- SENSITIVE INPUTS ---"
+    # -s hides input
+    read -s -p "Enter POSTGRES_PASSWORD (Superuser): " POSTGRES_PASSWORD
+    echo ""
+    if [ -z "$POSTGRES_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+
+    read -s -p "Enter POSTGRES_READ_PASSWORD (Read-only User): " POSTGRES_READ_PASSWORD
+    echo ""
+    if [ -z "$POSTGRES_READ_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+
+    read -s -p "Enter POSTGRES_READ_WRITE_PASSWORD (App User): " POSTGRES_READ_WRITE_PASSWORD
+    echo ""
+    if [ -z "$POSTGRES_READ_WRITE_PASSWORD" ]; then echo "Error: Password required."; exit 1; fi
+fi
 
 # ------------------------------------------------------------------
 # GENERATION

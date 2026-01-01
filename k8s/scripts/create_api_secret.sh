@@ -4,10 +4,32 @@
 
 set -euo pipefail
 
+# ------------------------------------------------------------------
+# CONFIGURATION
+# ------------------------------------------------------------------
+PASSWORD_LENGTH=20
+AUTO_GEN=false
+
+# Check for --auto-gen flag
+if [[ "${1:-}" == "--auto-gen" ]]; then
+    AUTO_GEN=true
+    shift || true
+fi
+
+# Generate secure random password
+generate_password() {
+    pwgen -s "$PASSWORD_LENGTH" 1
+}
+
 echo "Running create_api_secret.sh"
 
 # ENVIRONMENT INPUT
-read -p "Enter environment [alpha]: " ENVIRONMENT
+if [ "$AUTO_GEN" = true ]; then
+    ENVIRONMENT="${1:-alpha}"
+    echo "Auto-generating with environment: $ENVIRONMENT"
+else
+    read -p "Enter environment [alpha]: " ENVIRONMENT
+fi
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
 SECRET_NAME="podverse-api-opaque"
@@ -16,16 +38,24 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-api-opaque.enc.yaml"
 
 # ------------------------------------------------------------------
 # INPUTS
-# ------------------------------------------------------------------ 
-echo "--- AUTHENTICATION ---"
-read -s -p "Enter AUTH_JWT_SECRET (Random String): " AUTH_JWT_SECRET
-echo ""
-if [ -z "$AUTH_JWT_SECRET" ]; then echo "Error: JWT Secret required."; exit 1; fi
+# ------------------------------------------------------------------
+if [ "$AUTO_GEN" = true ]; then
+    echo "Auto-generating secrets..."
+    AUTH_JWT_SECRET=$(generate_password)
+    MAILER_PASSWORD=$(generate_password)
+    echo "  AUTH_JWT_SECRET: [generated]"
+    echo "  MAILER_PASSWORD: [generated]"
+else
+    echo "--- AUTHENTICATION ---"
+    read -s -p "Enter AUTH_JWT_SECRET (Random String): " AUTH_JWT_SECRET
+    echo ""
+    if [ -z "$AUTH_JWT_SECRET" ]; then echo "Error: JWT Secret required."; exit 1; fi
 
-echo ""
-echo "--- MAILER (Optional - Press Enter to skip) ---"
-read -s -p "Enter MAILER_PASSWORD: " MAILER_PASSWORD
-echo ""
+    echo ""
+    echo "--- MAILER (Optional - Press Enter to skip) ---"
+    read -s -p "Enter MAILER_PASSWORD: " MAILER_PASSWORD
+    echo ""
+fi
 
 # --- GENERATION ---
 mkdir -p "$(dirname "$OUTPUT_FILE")"
