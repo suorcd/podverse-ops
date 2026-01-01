@@ -21,6 +21,9 @@ spec:
             # npm run podcast_index_dead_feeds_flag_and_merge
             command: ["npm", "run", "podcast_index_dead_feeds_flag_and_merge"]
             securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              runAsNonRoot: true
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
             resources:

@@ -17,6 +17,9 @@ spec:
             image: ghcr.io/podverse/podverse-workers/podverse-workers
             command: ["npm", "run", "orm_on_demand_parser_event_generate_reports"]
             securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              runAsNonRoot: true
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
             resources:

@@ -17,6 +17,9 @@ spec:
             image: ghcr.io/podverse/podverse-workers/podverse-workers
             command: ["npm", "run", "mq_rss_add_recently_updated_feeds_from_podcast_index", "--", "-q", "rss-normal", "-sr", "900"]
             securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              runAsNonRoot: true
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
             resources:
