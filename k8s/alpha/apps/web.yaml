@@ -1,21 +1,28 @@
-# Version: 1
-# Application for Web
+# Version: 2
+# Child Application: Web
+# This application manages the frontend web interface for Podverse.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: podverse-web
+  name: podverse-alpha-web
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io/background
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:
+    # Points to your git repository
     repoURL: https://github.com/suorcd/podverse-ops.git
     targetRevision: feature/k3s01
+
+    # Path to the Web manifests (Deployment, Service, ConfigMap)
     path: k8s/alpha/web
+
   destination:
     server: https://kubernetes.default.svc
     namespace: podverse-alpha
+
   syncPolicy:
     automated:
       prune: true
