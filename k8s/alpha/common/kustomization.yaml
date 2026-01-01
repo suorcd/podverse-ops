@@ -9,3 +9,7 @@ resources:
   - 00-namespace.yaml
   - 01-ingress.yaml
   - 02-tls-options.yaml
+
+commonLabels:
+  app: podverse
+  environment: alpha

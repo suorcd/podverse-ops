@@ -8,9 +8,6 @@ kind: Ingress
 metadata:
   name: podverse-ingress
   namespace: podverse-alpha
-  labels:
-    app: podverse
-    environment: alpha
   annotations:
     # 1. Switch Entrypoint to HTTPS
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
