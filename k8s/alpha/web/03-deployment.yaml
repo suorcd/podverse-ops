@@ -39,9 +39,14 @@ spec:
         envFrom:
         - configMapRef:
             name: podverse-web-config
+        # Container security hardening
         securityContext:
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          # Explicitly set UID/GID to satisfy runAsNonRoot when image user is named (node)
+          runAsUser: 1000
+          runAsGroup: 1000
+          runAsNonRoot: true
         resources:
           requests:
             memory: "512Mi"
