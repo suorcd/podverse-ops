@@ -1,0 +1,22 @@
+# Version: 1
+# Filename: kustomization.yaml
+# Description: Bundles resources and acts as the "Variable" manager for the Database.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# 1. Resources to include
+resources:
+  - 01-configmap.yaml
+  - 03-service.yaml
+  - 04-statefulset.yaml
+  # Note: 02-secret is usually generated via script or sealed secrets, 
+  # so it is often excluded here if not present as a static file.
+
+# 2. Namespace
+namespace: podverse-alpha
+
+# 3. Image Variables
+images:
+  - name: postgres
+    newTag: "18.1"
