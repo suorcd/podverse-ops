@@ -80,3 +80,25 @@ Enter the Nix development environment which includes PostgreSQL client:
 ```bash
 nix develop
 ```
+
+## RedisInsight GUI
+
+Use `keyvaldb-gui-connect.sh` to reach the RedisInsight dashboard that ships alongside Valkey. The script:
+
+1. Decrypts the Valkey secret to expose `VALKEY_PASSWORD`.
+2. Creates a port-forward from `localhost` to the `podverse-keyvaldb-gui` service.
+3. Prints the local URL and password so you can log into RedisInsight.
+
+### Default usage
+
+```bash
+./scripts/keyvaldb-gui-connect.sh
+```
+
+### Connect to another environment or port
+
+```bash
+./scripts/keyvaldb-gui-connect.sh sandbox 9001
+```
+
+Once the script is running open `http://localhost:<PORT>` in your browser. You can use the displayed password when the dashboard asks for the Valkey credentials. Ctrl+C stops the port-forward and exits the script.
