@@ -1,21 +1,28 @@
-# Version: 1
-# Application for Cron Jobs
+# Version: 2
+# Child Application: Cron Jobs
+# This application manages scheduled maintenance and data processing tasks.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: podverse-cron
+  name: podverse-alpha-cron
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io/background
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:
+    # Points to your git repository
     repoURL: https://github.com/suorcd/podverse-ops.git
     targetRevision: feature/k3s01
+    
+    # Path to the Cron manifests (CronJobs for reports, archiving, etc.)
     path: k8s/alpha/cron
+
   destination:
     server: https://kubernetes.default.svc
     namespace: podverse-alpha
+
   syncPolicy:
     automated:
       prune: true
