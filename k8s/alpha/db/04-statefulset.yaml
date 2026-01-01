@@ -87,6 +87,10 @@ spec:
         - name: init-scripts
           mountPath: /docker-entrypoint-initdb.d
 
+        # Scratch space for the Postgres socket/lock files so it works with a read-only root FS
+        - name: run-dir
+          mountPath: /var/run/postgresql
+
         securityContext:
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
@@ -98,6 +102,8 @@ spec:
       - name: init-scripts
         configMap:
           name: podverse-db-init-scripts
+      - name: run-dir
+        emptyDir: {}
 
   # This section requests the physical storage from K3s (Local Path Provisioner).
   volumeClaimTemplates:
