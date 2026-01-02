@@ -1,4 +1,4 @@
-# Version: 2
+# Version: 3
 # Child Application: Database
 # This application manages the PostgreSQL StatefulSet and persistent storage.
 
@@ -7,8 +7,6 @@ kind: Application
 metadata:
   name: podverse-alpha-db
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:

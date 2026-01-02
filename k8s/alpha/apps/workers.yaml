@@ -1,4 +1,4 @@
-# Version: 2
+# Version: 3
 # Child Application: Workers
 # This application manages the various background worker processes for Podverse.
 
@@ -7,8 +7,6 @@ kind: Application
 metadata:
   name: podverse-alpha-workers
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:

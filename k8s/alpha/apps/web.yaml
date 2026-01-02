@@ -1,4 +1,4 @@
-# Version: 2
+# Version: 3
 # Child Application: Web
 # This application manages the frontend web interface for Podverse.
 
@@ -7,8 +7,6 @@ kind: Application
 metadata:
   name: podverse-alpha-web
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:

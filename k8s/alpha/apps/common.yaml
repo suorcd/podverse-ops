@@ -1,4 +1,4 @@
-# Version: 2
+# Version: 3
 # Child Application: Common Resources
 # This application manages the namespace, ingress, and shared TLS options.
 
@@ -7,8 +7,6 @@ kind: Application
 metadata:
   name: podverse-alpha-common
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:

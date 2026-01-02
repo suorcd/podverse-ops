@@ -1,4 +1,4 @@
-# Version: 2
+# Version: 3
 # Child Application: Cron Jobs
 # This application manages scheduled maintenance and data processing tasks.
 
@@ -7,8 +7,6 @@ kind: Application
 metadata:
   name: podverse-alpha-cron
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: podverse
   source:
