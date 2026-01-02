@@ -10,6 +10,10 @@ resources:
   - ../../base/common/01-ingress.yaml
   - ../../base/common/02-tls-options.yaml
 
-commonLabels:
-  app: podverse
-  environment: alpha
+labels:
+  - pairs:
+      app: podverse-common
+      environment: alpha
+    # This ensures the labels are also applied to the selectors, 
+    # so the Service correctly finds the Pods.
+    includeSelectors: true

@@ -1,4 +1,4 @@
-# Version: 1
+# Version: 2
 # Filename: kustomization.yaml
 # Description: Bundles resources and manages image versions for the API.
 
@@ -14,9 +14,15 @@ resources:
 # 2. Namespace (optional, ensures all resources are in this namespace)
 namespace: podverse-alpha
 
-commonLabels:
-  app: podverse-api
-  environment: alpha
+# 3. Common Labels (Updated to modern 'labels' syntax)
+# This tags all resources (Deployment, Service, ConfigMap) with these labels.
+labels:
+  - pairs:
+      app: podverse-api
+      environment: alpha
+    # This ensures the labels are also applied to the selectors, 
+    # so the Service correctly finds the Pods.
+    includeSelectors: true
 
 # 3. Image Variables
 # We define the specific version here.
