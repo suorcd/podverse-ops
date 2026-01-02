@@ -1,4 +1,4 @@
-# Version: 1
+# Version: 2
 # This kustomization file bundles common infrastructure components.
 # It includes the namespace, ingress rules, and TLS security policies.
 
@@ -10,10 +10,9 @@ resources:
   - ../../base/common/01-ingress.yaml
   - ../../base/common/02-tls-options.yaml
 
+# Updated from commonLabels to labels
 labels:
   - pairs:
-      app: podverse-common
+      app: podverse
       environment: alpha
-    # This ensures the labels are also applied to the selectors, 
-    # so the Service correctly finds the Pods.
     includeSelectors: true
