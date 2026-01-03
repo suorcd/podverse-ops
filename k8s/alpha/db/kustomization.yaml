@@ -28,3 +28,7 @@ labels:
 images:
   - name: postgres
     newTag: "18.1"
+
+# This patch applies the Tailscale configuration ONLY for this environment
+patches:
+  - path: tailscale-patch.yaml
