@@ -4,8 +4,8 @@ metadata:
   name: podverse-db
   annotations:
     # This creates a machine name in your Tailscale admin console
-    # You can access it via: podverse-alpha-db.k.tailnet-name.ts.net
-    tailscale.com/hostname: podverse-alpha-db.k
+    # You can access it via: podverse-alpha-db-k.tailnet-name.ts.net
+    tailscale.com/hostname: podverse-alpha-db-k
 spec:
   # This tells Kubernetes to hand this service over to the Tailscale Operator
   loadBalancerClass: tailscale
