@@ -111,6 +111,29 @@ kubectl apply -f k8s/alpha-application.yaml
 ```
 
 
+## Kustomize
+
+Use Kustomize to render overlays locally, matching what ArgoCD applies. Because bases live outside the overlay folders, include the relaxed load restrictor flag.
+
+```bash
+kustomize build --load-restrictor LoadRestrictionsNone k8s/alpha/workers/
+```
+
+Other overlays render the same way (e.g., `k8s/alpha/api`, `k8s/alpha/web`, `k8s/alpha/db`). Add `| kubectl apply -f - --dry-run=client` to validate locally before pushing to Git.
+
+## ArgoCD bootstrap (App of Apps)
+
+- Update `repoURL` and `targetRevision` in [k8s/alpha-application.yaml](k8s/alpha-application.yaml) if deploying from a fork or different branch.
+- Apply the root application once: `kubectl apply -f k8s/alpha-application.yaml`. ArgoCD will create child apps for common, api, web, db, mq, workers, and cron.
+- Leave automated sync, prune, and self-heal enabled (already configured in manifests).
+
+## Secrets and SOPS
+
+- Encrypted secrets live under [k8s/secrets/](k8s/secrets/). Decrypt with `sops -d` when applying manually.
+- Helper scripts in [k8s/scripts/](k8s/scripts/README.md) generate secrets for DB, MQ, API, workers, Firebase, and Valkey. They assume SOPS keys are available and `nix develop` provides required binaries.
+- Never commit decrypted secrets; ArgoCD consumes the encrypted files directly.
+
+
 # Podverse Alpha - K3s GitOps
 
 This directory contains the Kubernetes manifests for the Podverse Alpha environment, deployed on a 3-node K3s cluster running on Proxmox/NixOS.
