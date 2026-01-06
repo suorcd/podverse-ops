@@ -22,4 +22,4 @@ labels:
 
 images:
   - name: ghcr.io/suorcd/podverse-web-deploy
-    newTag: "5.1.15-alpha.0-13"
+    newTag: "5.1.16-alpha.0-14"

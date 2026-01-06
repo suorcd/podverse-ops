@@ -16,7 +16,7 @@ namespace: podverse-alpha
 
 images:
   - name: ghcr.io/podverse/podverse-workers/podverse-workers
-    newTag: "5.1.15-alpha.0"
+    newTag: "5.1.16-alpha.0"
 
 labels:
   - pairs:
