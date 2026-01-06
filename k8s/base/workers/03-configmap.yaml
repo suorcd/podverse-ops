@@ -40,7 +40,24 @@ data:
   # Podcast Index
   PODCAST_INDEX_BASE_URL: "https://api.podcastindex.org/api/1.0"
 
-  # Firebase
-  # This path matches where we will mount the secret in the Deployment
-  # FIREBASE_PATH_TO_AUTH_JSON: "/opt/config/firebase-key.json"
-  # FIREBASE_PROJECT_ID: "REPLACE_with_your_project_id"
+  ##### Google / Firebase
+  #####
+
+  GOOGLE_FIREBASE_NOTIFICATIONS_ENABLED: "" # true or undefined
+  GOOGLE_FIREBASE_ADMIN_JSON_KEY_PATH: "" # Set as absolute path
+
+  #####
+  ##### Website related
+  #####
+  ### NOTE: these are for the *public facing* IP addresses,
+  ### not the internal Docker service network or private IP addresses.
+  ### These are used by some services, e.g. Firebase Cloud Messaging, Unified Push.
+  WEB_PROTOCOL: "https"
+  WEB_DOMAIN: "alpha-podverse.k.ser.ink"
+  WEB_ICON_IMAGE_PATH: "/favicon/web-app-manifest-192x192.png"
+
+  #####
+  ##### Default Account Settings
+  #####
+  # These are used as default values when creating new accounts.
+  DEFAULT_ACCOUNT_SETTINGS_LOCALE: "en-US"

@@ -31,7 +31,7 @@ data:
   
   ##AUTH_JWT_SECRET: "your-secret-whatever" # in secrets
 
-  USER_AGENT: "Podverse/API-2"
+  USER_AGENT: "Podverse/Alpha/2/API"
   
   # Use the public facing domain, not the internal docker network ip address.
   COOKIE_DOMAIN: ".k.ser.ink" # prefix with a dot for subdomains, e.g. .podverse.fm or .beta.podverse.fm
@@ -74,7 +74,7 @@ data:
   ### NOTE: these are for the *public facing* IP addresses,
   ### not the internal Docker service network or private IP addresses.
   WEBSITE_PROTOCOL: "https"
-  WEBSITE_DOMAIN: "api-alpha-podverse.k.ser.ink" 
+  WEBSITE_DOMAIN: "api-alpha-podverse.k.ser.ink"
 
   #####
   ##### Email template
@@ -130,6 +130,13 @@ data:
   KEYVALDB_PORT: "6379"
   #KEYVALDB_PASSWORD: "" # in secrets
   KEYVALDB_CACHE_TTL_SECONDS: "86400" # 1 day
+
+  #####
+  ##### Default Account Settings
+  #####
+  # These are used as default values when creating new accounts.
+  DEFAULT_ACCOUNT_SETTINGS_LOCALE: "en-US"
+
 
   #####
   ##### Parser
