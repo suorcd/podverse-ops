@@ -47,11 +47,15 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-db-opaque.enc.yaml"
 # ------------------------------------------------------------------
 DEFAULT_DB="postgres"
 DEFAULT_USER="postgres"
+DEFAULT_READ_USER="read"
+DEFAULT_READ_WRITE_USER="read_write"
 
 if [ "$AUTO_GEN" = true ]; then
     echo "Auto-generating secrets..."
     POSTGRES_DB="$DEFAULT_DB"
     POSTGRES_USER="$DEFAULT_USER"
+    POSTGRES_READ_USER="$DEFAULT_READ_USER"
+    POSTGRES_READ_WRITE_USER="$DEFAULT_READ_WRITE_USER"
     POSTGRES_PASSWORD=$(generate_password)
     POSTGRES_READ_PASSWORD=$(generate_password)
     POSTGRES_READ_WRITE_PASSWORD=$(generate_password)
@@ -71,8 +75,17 @@ else
     POSTGRES_DB="${INPUT_DB:-$DEFAULT_DB}"
     echo ""
     echo "--- USERNAME INPUTS ---"
+    echo "--- ADMIN USER ---"
     read -r -p "POSTGRES_USER [${DEFAULT_USER}]: " INPUT_USER
     POSTGRES_USER="${INPUT_USER:-$DEFAULT_USER}"
+    echo ""
+    echo "--- READ-ONLY USER ---"
+    read -r -p "POSTGRES_READ_USER [${DEFAULT_READ_USER}]: " INPUT_READ_USER
+    POSTGRES_READ_USER="${INPUT_READ_USER:-$DEFAULT_READ_USER}"
+    echo ""
+    echo "--- READ-WRITE USER ---"
+    read -r -p "POSTGRES_READ_WRITE_USER [${DEFAULT_READ_WRITE_USER}]: " INPUT_READ_WRITE_USER
+    POSTGRES_READ_WRITE_USER="${INPUT_READ_WRITE_USER:-$DEFAULT_READ_WRITE_USER}"
 
     echo ""
     echo "--- SENSITIVE INPUTS ---"
@@ -109,13 +122,14 @@ kubectl create secret generic "${SECRET_NAME}" \
     --from-literal=DB_DATABASE="${POSTGRES_DB}" \
     --from-literal=POSTGRES_DB="${POSTGRES_DB}" \
     --from-literal=POSTGRES_USER="${POSTGRES_USER}" \
+    --from-literal=POSTGRES_READ_USER="${POSTGRES_READ_USER}" \
+    --from-literal=POSTGRES_READ_WRITE_USER="${POSTGRES_READ_WRITE_USER}" \
     --from-literal=POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     --from-literal=POSTGRES_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
     --from-literal=POSTGRES_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
-    \
+
     --from-literal=DB_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
     --from-literal=DB_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
-    \
     --dry-run=client -o yaml > "$TMP_FILE"
 
 sops --encrypt --encrypted-regex '^(data|stringData)$' \
