@@ -84,8 +84,6 @@ spec:
       volumes:
       - name: nextjs-cache
         emptyDir: {}
-      imagePullSecrets:
-      - name: github-registry-secret
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
