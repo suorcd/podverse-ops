@@ -127,7 +127,6 @@ kubectl create secret generic "${SECRET_NAME}" \
     --from-literal=POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     --from-literal=POSTGRES_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
     --from-literal=POSTGRES_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
-
     --from-literal=DB_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
     --from-literal=DB_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
     --dry-run=client -o yaml > "$TMP_FILE"

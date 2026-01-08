@@ -1,4 +1,4 @@
-# Version: 3
+# Version: 4
 # Filename: kustomization.yaml
 # Description: Bundles resources and acts as the "Variable" manager for the Database.
 
@@ -31,4 +31,5 @@ images:
 
 # This patch applies the Tailscale configuration ONLY for this environment
 patches:
-  - path: tailscale-patch.yaml
+  # Temporarily disabled to verify core DB deployment first
+  # - path: tailscale-patch.yaml
