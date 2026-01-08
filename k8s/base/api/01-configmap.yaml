@@ -22,20 +22,19 @@ data:
   #####
   NODE_ENV: "production"
   LOG_LEVEL: "info"
+
   API_PORT: "1234"
   API_PREFIX: "/api"
   API_VERSION: "/v2"
 
   API_ALLOWED_CORS_ORIGINS: "http://podverse-web:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink"
 
-  
   ##AUTH_JWT_SECRET: "your-secret-whatever" # in secrets
 
-  USER_AGENT: "Podverse/Alpha/2/API"
+  USER_AGENT: "Podverse/Ser/2/API/Ser" # TODO:Customize your user agent for outbound requests
   
   # Use the public facing domain, not the internal docker network ip address.
-  COOKIE_DOMAIN: ".k.ser.ink" # prefix with a dot for subdomains, e.g. .podverse.fm or .beta.podverse.fm
-  COOKIE_SECURE: "true" # set to true in production when using HTTPS
+  COOKIE_DOMAIN: ".k.ser.ink" # TODO: prefix with a dot for subdomains, e.g. .podverse.fm or .beta.podverse.fm
 
   # Web App TODO: Update these to your actual web app domain and protocol
   WEB_PROTOCOL: "http"
@@ -45,13 +44,13 @@ data:
   ##### Postgres
   #####
 
-  DB_HOST: "podverse-db"   # We point to the internal Kubernetes Service for the database
+  DB_HOST: "podverse-db"
   DB_PORT: "5432"
-  # DB_READ_USERNAME: "read" # in secrets
-  # DB_PASSWORD: "your-db-password" # in secrets
-  # DB_READ_WRITE_USERNAME: "read_write" # in secrets
-  # DB_READ_WRITE_PASSWORD: "read_write" # in secrets
-  # DB_DATABASE: "postgres" # in secrets
+  # DB_READ_USERNAME: "read"                # in secrets
+  # DB_PASSWORD: "your-db-password"         # in secrets
+  # DB_READ_WRITE_USERNAME: "read_write"    # in secrets
+  # DB_READ_WRITE_PASSWORD: "read_write"    # in secrets
+  # DB_DATABASE: "postgres"                 # in secrets
   DB_SSL_CONNECTION: "false"
 
   #####
@@ -73,8 +72,9 @@ data:
   #####
   ### NOTE: these are for the *public facing* IP addresses,
   ### not the internal Docker service network or private IP addresses.
-  WEBSITE_PROTOCOL: "https"
-  WEBSITE_DOMAIN: "api-alpha-podverse.k.ser.ink"
+
+  WEBSITE_PROTOCOL: "https"                         # TODO: http or https
+  WEBSITE_DOMAIN: "api-alpha-podverse.k.ser.ink"    # TODO: your public API domain
 
   #####
   ##### Email template
@@ -109,27 +109,26 @@ data:
   #####
 
   PODCAST_INDEX_BASE_URL: "https://api.podcastindex.org/api/1.0"
-  #PODCAST_INDEX_AUTH_KEY: "" # in secrets
-  #PODCAST_INDEX_SECRET_KEY: "" # in secrets
+  #PODCAST_INDEX_AUTH_KEY:      "" # in secrets
+  #PODCAST_INDEX_SECRET_KEY:    "" # in secrets
 
   #####
   ##### Message Queue
   #####
 
-  MESSAGE_QUEUE_HOST: "podverse-mq" # change to service name in production
+  MESSAGE_QUEUE_HOST: "podverse-mq"
   MESSAGE_QUEUE_PORT: "5672"
-  #MESSAGE_QUEUE_USERNAME: "user" # in secrets
-  #MESSAGE_QUEUE_PASSWORD: "mysecretpw" # in secrets
+  #MESSAGE_QUEUE_USERNAME: "user"         # in secrets
+  #MESSAGE_QUEUE_PASSWORD: "mysecretpw"   # in secrets
 
   #####
-
   ##### Key-value (Valkey / Redis)
   #####
 
   KEYVALDB_HOST: "podverse-keyvaldb"
   KEYVALDB_PORT: "6379"
-  #KEYVALDB_PASSWORD: "" # in secrets
-  KEYVALDB_CACHE_TTL_SECONDS: "86400" # 1 day
+  #KEYVALDB_PASSWORD: ""                # in secrets
+  KEYVALDB_CACHE_TTL_SECONDS: "86400"   # 1 day
 
   #####
   ##### Default Account Settings
