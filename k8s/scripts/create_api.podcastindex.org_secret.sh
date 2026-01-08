@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # VERSION: 1
 # Helper to create the encrypted Workers secret (Podcast Index Keys).
+# NOTE: This secret requires real credentials from Podcast Index API.
+# Auto-generated credentials will NOT work - you must provide actual keys.
 
 set -euo pipefail
 
@@ -8,13 +10,6 @@ set -euo pipefail
 # CONFIGURATION
 # ------------------------------------------------------------------
 PASSWORD_LENGTH=20
-AUTO_GEN=false
-
-# Check for --auto-gen flag
-if [[ "${1:-}" == "--auto-gen" ]]; then
-    AUTO_GEN=true
-    shift || true
-fi
 
 # Generate secure random password
 generate_password() {
@@ -24,12 +19,7 @@ generate_password() {
 echo "Running create_workers_secret.sh"
 
 # ENVIRONMENT INPUT
-if [ "$AUTO_GEN" = true ]; then
-    ENVIRONMENT="${1:-alpha}"
-    echo "Auto-generating with environment: $ENVIRONMENT"
-else
-    read -r -p "Enter environment [alpha]: " ENVIRONMENT
-fi
+read -r -p "Enter environment [alpha]: " ENVIRONMENT
 ENVIRONMENT="${ENVIRONMENT:-alpha}"
 
 SECRET_NAME="podverse-api.podcastindex.org-opaque"
@@ -39,25 +29,20 @@ OUTPUT_FILE="./k8s/secrets/podverse-${ENVIRONMENT}-api.podcastindex.org-opaque.e
 # ------------------------------------------------------------------
 # INPUTS
 # ------------------------------------------------------------------
-if [ "$AUTO_GEN" = true ]; then
-    echo "Auto-generating secrets..."
-    PI_AUTH=$(generate_password)
-    PI_SECRET=$(generate_password)
-    echo "  PODCAST_INDEX_AUTH_KEY: [generated]"
-    echo "  PODCAST_INDEX_SECRET_KEY: [generated]"
-else
-    echo ""
-    echo "--- PODCAST INDEX API KEY---"
-    read -r -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
-    echo ""
-    if [ -z "$PI_AUTH" ]; then echo "Error: Auth Key required."; exit 1; fi
+echo ""
+echo "--- PODCAST INDEX API KEY ---"
+echo "NOTE: These must be real credentials from Podcast Index API."
+echo "Auto-generated values will not work."
+echo ""
+read -r -p "Enter PODCAST_INDEX_AUTH_KEY: " PI_AUTH
+echo ""
+if [ -z "$PI_AUTH" ]; then echo "Error: Auth Key required."; exit 1; fi
 
-    echo "--- PODCAST INDEX API SECRET---"
-    echo ""
-    read -r -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
-    echo ""
-    if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
-fi
+echo "--- PODCAST INDEX API SECRET---"
+echo ""
+read -r -s -p "Enter PODCAST_INDEX_SECRET_KEY: " PI_SECRET
+echo ""
+if [ -z "$PI_SECRET" ]; then echo "Error: Secret Key required."; exit 1; fi
 
 # --- GENERATION ---
 mkdir -p "$(dirname "$OUTPUT_FILE")"
