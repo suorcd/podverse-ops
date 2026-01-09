@@ -87,7 +87,7 @@ data:
   # Native browser push notifications using W3C Push API (no third-party dependency)
   # Generate keys with: npx web-push generate-vapid-keys
 
-  WEBPUSH_ENABLED: "false" # true or undefined
+  WEBPUSH_ENABLED: "" # true or undefined
   WEBPUSH_VAPID_PUBLIC_KEY: ""
   WEBPUSH_VAPID_PRIVATE_KEY: ""
   WEBPUSH_VAPID_SUBJECT: ""
