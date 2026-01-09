@@ -48,7 +48,6 @@ data:
     ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO read_write;
     ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, USAGE, UPDATE ON SEQUENCES TO read_write;
     SQL
-
   # This is the full schema initialization SQL.
   init_database.sql: |
     -- 0000 migration
@@ -73,6 +72,7 @@ data:
     CREATE DOMAIN varchar_fcm_token AS VARCHAR(255);
     CREATE DOMAIN varchar_fqdn AS VARCHAR(253);
     CREATE DOMAIN varchar_guid AS VARCHAR(36);
+    CREATE DOMAIN varchar_locale AS VARCHAR(85);
     CREATE DOMAIN varchar_md5 AS VARCHAR(32);
     -- bcrypt salted hash passwords are always 60 characters long
     CREATE DOMAIN varchar_password AS VARCHAR(60);
@@ -256,7 +256,10 @@ data:
         value TEXT UNIQUE CHECK (VALUE IN (
             'publisher',
             'podcast', 'music', 'video', 'film', 'audiobook', 'newsletter', 'blog', 'course',
-            'mixed', 'podcastL', 'musicL', 'videoL', 'filmL', 'audiobookL', 'newsletterL', 'blogL', 'publisherL', 'courseL', 'av'
+            'mixed', 'podcastL', 'musicL', 'videoL', 'filmL', 'audiobookL', 'newsletterL', 'blogL', 'publisherL', 'courseL',
+            'av',
+            'publisher-podcast', 'publisher-music', 'publisher-video', 'publisher-film', 'publisher-audiobook', 'publisher-newsletter', 'publisher-blog', 'publisher-course',
+            'publisher-av'
         ))
     );
 
@@ -264,7 +267,9 @@ data:
         ('publisher'),
         ('podcast'), ('music'), ('video'), ('film'), ('audiobook'), ('newsletter'), ('blog'), ('course'),
         ('mixed'), ('podcastL'), ('musicL'), ('videoL'), ('filmL'), ('audiobookL'), ('newsletterL'), ('blogL'), ('publisherL'), ('courseL'),
-        ('av')
+        ('av'),
+        ('publisher-podcast'), ('publisher-music'), ('publisher-video'), ('publisher-film'), ('publisher-audiobook'), ('publisher-newsletter'), ('publisher-blog'), ('publisher-course'),
+        ('publisher-av')
     ;
 
     ----------** TABLES **----------
@@ -294,10 +299,15 @@ data:
         url varchar_url UNIQUE NOT NULL,
         podcast_index_id INTEGER UNIQUE NOT NULL,
 
+        -- internal
+
         -- feed flag
         feed_flag_status_id INTEGER NOT NULL REFERENCES feed_flag_status(id),
 
-        -- internal
+        -- the hash of the last parsed feed file.
+        -- used for comparison to determine if full re-parsing is needed.
+        last_parsed_file_hash varchar_md5,
+
 
         -- Used to prevent another thread from parsing the same feed.
         -- Set to current time at beginning of parsing, and NULL at end of parsing. 
@@ -308,10 +318,6 @@ data:
         -- 0 will only be parsed when PI API reports an update.
         -- higher parsing_priority will be parsed more frequently on a schedule.
         parsing_priority INTEGER DEFAULT 0 CHECK (parsing_priority BETWEEN 0 AND 5),
-
-        -- the hash of the last parsed feed file.
-        -- used for comparison to determine if full re-parsing is needed.
-        last_parsed_file_hash varchar_md5,
 
         -- the run-time environment container id
         container_id VARCHAR(12),
@@ -543,6 +549,11 @@ data:
     CREATE INDEX idx_channel_podroll_remote_item_feed_url ON channel_podroll_remote_item(feed_url);
     CREATE INDEX idx_channel_podroll_remote_item_item_guid ON channel_podroll_remote_item(item_guid);
 
+    CREATE UNIQUE INDEX uq_channel_podroll_remote_item_feed_guid_no_item_guid
+        ON channel_podroll_remote_item(channel_podroll_id, feed_guid) WHERE item_guid IS NULL;
+    CREATE UNIQUE INDEX uq_channel_podroll_remote_item_feed_guid_item_guid
+        ON channel_podroll_remote_item(channel_podroll_id, feed_guid, item_guid) WHERE item_guid IS NOT NULL;
+
     --** CHANNEL > PUBLISHER
 
     -- <channel> -> <podcast:publisher>
@@ -572,6 +583,11 @@ data:
     CREATE INDEX idx_channel_publisher_remote_item_feed_url ON channel_publisher_remote_item(feed_url);
     CREATE INDEX idx_channel_publisher_remote_item_item_guid ON channel_publisher_remote_item(item_guid);
 
+    CREATE UNIQUE INDEX uq_channel_publisher_remote_item_feed_guid_no_item_guid
+        ON channel_publisher_remote_item(channel_publisher_id, feed_guid) WHERE item_guid IS NULL;
+    CREATE UNIQUE INDEX uq_channel_publisher_remote_item_feed_guid_item_guid
+        ON channel_publisher_remote_item(channel_publisher_id, feed_guid, item_guid) WHERE item_guid IS NOT NULL;
+
     --** CHANNEL > REMOTE ITEM
 
     -- Remote items at the channel level are only used when the <podcast:medium> for the channel
@@ -593,6 +609,11 @@ data:
     CREATE INDEX idx_channel_remote_item_feed_guid ON channel_remote_item(feed_guid);
     CREATE INDEX idx_channel_remote_item_feed_url ON channel_remote_item(feed_url);
     CREATE INDEX idx_channel_remote_item_item_guid ON channel_remote_item(item_guid);
+
+    CREATE UNIQUE INDEX uq_channel_remote_item_feed_guid_no_item_guid
+        ON channel_remote_item(channel_id, feed_guid) WHERE item_guid IS NULL;
+    CREATE UNIQUE INDEX uq_channel_remote_item_feed_guid_item_guid
+        ON channel_remote_item(channel_id, feed_guid, item_guid) WHERE item_guid IS NOT NULL;
 
     --** CHANNEL > SEASON
 
@@ -1106,6 +1127,11 @@ data:
     CREATE INDEX idx_item_value_time_split_remote_item_feed_url ON item_value_time_split_remote_item(feed_url);
     CREATE INDEX idx_item_value_time_split_remote_item_item_guid ON item_value_time_split_remote_item(item_guid);
 
+    CREATE UNIQUE INDEX uq_item_value_time_split_remote_item_feed_guid_no_item_guid
+        ON item_value_time_split_remote_item(item_value_time_split_id, feed_guid) WHERE item_guid IS NULL;
+    CREATE UNIQUE INDEX uq_item_value_time_split_remote_item_feed_guid_item_guid
+        ON item_value_time_split_remote_item(item_value_time_split_id, feed_guid, item_guid) WHERE item_guid IS NOT NULL;
+
     --** ITEM > VALUE > TIME SPLIT > VALUE RECIPEINT
 
     -- <item> -> <podcast:value> -> <podcast:valueTimeSplit> -> <podcast:valueRecipient>
@@ -1445,33 +1471,82 @@ data:
     -- 0007
 
     CREATE TABLE account_notification_channel (
+        id SERIAL PRIMARY KEY,
         channel_id INTEGER NOT NULL REFERENCES channel(id) ON DELETE CASCADE,
         account_id INTEGER NOT NULL REFERENCES account(id) ON DELETE CASCADE,
-        PRIMARY KEY (channel_id, account_id)
+        UNIQUE (channel_id, account_id)
     );
 
     CREATE INDEX idx_account_notification_channel_channel_id ON account_notification_channel(channel_id);
     CREATE INDEX idx_account_notification_channel_account_id ON account_notification_channel(account_id);
 
+    CREATE TYPE notification_channel_type_options AS ENUM ('new-item', 'livestream-scheduled', 'livestream-started');
+
+    CREATE TABLE account_notification_channel_type (
+        id SERIAL PRIMARY KEY,
+        account_notification_channel_id INTEGER NOT NULL REFERENCES account_notification_channel(id) ON DELETE CASCADE,
+        type notification_channel_type_options NOT NULL
+    );
+
     CREATE TABLE account_up_device (
         id SERIAL PRIMARY KEY,
         account_id INTEGER NOT NULL REFERENCES account(id) ON DELETE CASCADE,
         up_endpoint varchar_url UNIQUE NOT NULL,
-        up_public_key varchar_long NOT NULL,
-        up_auth_key varchar_long NOT NULL
+        up_auth_key varchar_long,
+        locale varchar_locale NOT NULL,
+        created_at server_time_with_default NOT NULL,
+        updated_at server_time_with_default NOT NULL
     );
+
+    CREATE TRIGGER set_updated_at_account_up_device
+    BEFORE UPDATE ON account_up_device
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at_field();
 
     CREATE INDEX idx_account_up_device_account_id ON account_up_device(account_id);
     CREATE INDEX idx_account_up_device_up_endpoint ON account_up_device(up_endpoint);
 
+    CREATE TYPE account_fcm_device_platform_options AS ENUM ('web','ios','android');
+
     CREATE TABLE account_fcm_device (
         id SERIAL PRIMARY KEY,
-        fcm_token varchar_fcm_token UNIQUE NOT NULL,
-        account_id INTEGER NOT NULL REFERENCES account(id) ON DELETE CASCADE
+        account_id INTEGER NOT NULL REFERENCES account(id) ON DELETE CASCADE,
+        fcm_token varchar_fcm_token NOT NULL UNIQUE,
+        installation_id varchar_guid NOT NULL UNIQUE,
+        platform account_fcm_device_platform_options NOT NULL,
+        locale varchar_locale NOT NULL,
+        created_at server_time_with_default NOT NULL,
+        updated_at server_time_with_default NOT NULL
     );
+
+    CREATE TRIGGER set_updated_at_account_fcm_device
+    BEFORE UPDATE ON account_fcm_device
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at_field();
 
     CREATE INDEX idx_account_fcm_device_account_id ON account_fcm_device(account_id);
     CREATE INDEX idx_account_fcm_device_fcm_token ON account_fcm_device(fcm_token);
+    CREATE INDEX idx_account_fcm_device_installation_id ON account_fcm_device(installation_id);
+    CREATE INDEX idx_account_fcm_device_platform ON account_fcm_device(platform);
+
+    CREATE TABLE account_webpush_device (
+        id SERIAL PRIMARY KEY,
+        account_id INTEGER NOT NULL REFERENCES account(id) ON DELETE CASCADE,
+        endpoint varchar_url NOT NULL UNIQUE,
+        p256dh varchar_long NOT NULL,
+        auth varchar_long NOT NULL,
+        locale varchar_locale NOT NULL,
+        created_at server_time_with_default NOT NULL,
+        updated_at server_time_with_default NOT NULL
+    );
+
+    CREATE TRIGGER set_updated_at_account_webpush_device
+    BEFORE UPDATE ON account_webpush_device
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at_field();
+
+    CREATE INDEX idx_account_webpush_device_account_id ON account_webpush_device(account_id);
+    CREATE INDEX idx_account_webpush_device_endpoint ON account_webpush_device(endpoint);
 
     -- 0008
 
@@ -1786,3 +1861,26 @@ data:
     CREATE INDEX idx_on_demand_parser_event_remote_parent_podcast_index_id ON on_demand_parser_event(remote_parent_podcast_index_id);
     CREATE INDEX idx_on_demand_parser_event_type ON on_demand_parser_event(type);
     CREATE INDEX idx_on_demand_parser_event_created_at ON on_demand_parser_event(created_at DESC);
+
+    CREATE TABLE account_settings (
+        id SERIAL PRIMARY KEY,
+        account_id integer NOT NULL REFERENCES account(id) ON DELETE CASCADE UNIQUE
+    );
+
+    CREATE TABLE account_settings_locale (
+        id SERIAL PRIMARY KEY,
+        account_settings_id integer NOT NULL REFERENCES account_settings(id) ON DELETE CASCADE UNIQUE,
+        locale varchar_locale NOT NULL DEFAULT 'en-US'
+    );
+
+    CREATE TABLE account_settings_notification (
+        id SERIAL PRIMARY KEY,
+        account_settings_id integer NOT NULL REFERENCES account_settings(id) ON DELETE CASCADE UNIQUE
+    );
+
+    CREATE TABLE account_settings_notification_type (
+        id SERIAL PRIMARY KEY,
+        account_settings_notification_id INTEGER NOT NULL REFERENCES account_settings_notification(id) ON DELETE CASCADE,
+        type notification_channel_type_options NOT NULL,
+        CONSTRAINT account_settings_notification_type_notification_id_type_unique UNIQUE (account_settings_notification_id, type)
+    );
