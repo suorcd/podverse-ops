@@ -15,12 +15,12 @@ namespace: podverse-alpha
 
 images:
   - name: ghcr.io/podverse/podverse-workers/podverse-workers
-    newTag: "5.1.20-alpha.0"
+    newTag: "5.1.23-alpha.0"
 
 labels:
   - pairs:
       app: podverse-cron
       environment: alpha
-    # This ensures the labels are also applied to the selectors, 
+    # This ensures the labels are also applied to the selectors,
     # so the Service correctly finds the Pods.
     includeSelectors: true
