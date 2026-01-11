@@ -27,14 +27,14 @@ data:
   API_PREFIX: "/api"
   API_VERSION: "/v2"
 
-  API_ALLOWED_CORS_ORIGINS: "http://podverse-web:3000"  # Override in environment kustomization.yaml
+  API_ALLOWED_CORS_ORIGINS: "http://podverse-web:3000" # Override in environment kustomization.yaml
 
   ##AUTH_JWT_SECRET: "your-secret-whatever" # in secrets
 
   USER_AGENT: "Podverse/Ser/2/API/Ser" # TODO:Customize your user agent for outbound requests
-  
+
   # Use the public facing domain, not the internal docker network ip address.
-  COOKIE_DOMAIN: ".example.com"  # Override in environment kustomization.yaml
+  COOKIE_DOMAIN: ".example.com" # Override in environment kustomization.yaml
 
   # Web App TODO: Update these to your actual web app domain and protocol
   WEB_PROTOCOL: "http"
@@ -66,15 +66,6 @@ data:
   RESET_PASSWORD_PAGE_PATH: "/reset-password?token="
   VERIFY_EMAIL_PAGE_PATH: "/verify-email?token="
   EMAIL_CHANGE_VERIFICATION_PAGE_PATH: "/email-change-verifying?token="
-
-  #####
-  ##### Website related
-  #####
-  ### NOTE: these are for the *public facing* IP addresses,
-  ### not the internal Docker service network or private IP addresses.
-
-  WEBSITE_PROTOCOL: "https"                         # TODO: http or https
-  WEBSITE_DOMAIN: "api.example.com"                 # Override in environment kustomization.yaml
 
   #####
   ##### Email template
@@ -128,14 +119,13 @@ data:
   KEYVALDB_HOST: "podverse-keyvaldb"
   KEYVALDB_PORT: "6379"
   #KEYVALDB_PASSWORD: ""                # in secrets
-  KEYVALDB_CACHE_TTL_SECONDS: "86400"   # 1 day
+  KEYVALDB_CACHE_TTL_SECONDS: "86400" # 1 day
 
   #####
   ##### Default Account Settings
   #####
   # These are used as default values when creating new accounts.
   DEFAULT_ACCOUNT_SETTINGS_LOCALE: "en-US"
-
 
   #####
   ##### Parser
