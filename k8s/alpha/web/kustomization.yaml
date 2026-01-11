@@ -24,5 +24,5 @@ images:
   - name: ghcr.io/suorcd/podverse-web-deploy
     newTag: "5.1.23-alpha.0-20"
 
-patchesStrategicMerge:
-  - deployment-link-patch.yaml
+patches:
+  - path: deployment-link-patch.yaml
