@@ -29,9 +29,9 @@ configMapGenerator:
   - name: podverse-api-config
     behavior: merge
     literals:
-      - API_ALLOWED_CORS_ORIGINS=http://podverse-web:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink
-      - COOKIE_DOMAIN=.k.ser.ink
-      - WEBSITE_DOMAIN=api-alpha-podverse.k.ser.ink
+      - API_ALLOWED_CORS_ORIGINS="http://podverse-web:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink"
+      - COOKIE_DOMAIN=".k.ser.ink"
+      - WEBSITE_DOMAIN="api-alpha-podverse.k.ser.ink"
 
 patches:
   - path: deployment-link-patch.yaml
