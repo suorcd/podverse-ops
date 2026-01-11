@@ -27,14 +27,14 @@ data:
   API_PREFIX: "/api"
   API_VERSION: "/v2"
 
-  API_ALLOWED_CORS_ORIGINS: "http://podverse-web:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink"
+  API_ALLOWED_CORS_ORIGINS: "http://podverse-web:3000"  # Override in environment kustomization.yaml
 
   ##AUTH_JWT_SECRET: "your-secret-whatever" # in secrets
 
   USER_AGENT: "Podverse/Ser/2/API/Ser" # TODO:Customize your user agent for outbound requests
   
   # Use the public facing domain, not the internal docker network ip address.
-  COOKIE_DOMAIN: ".k.ser.ink" # TODO: prefix with a dot for subdomains, e.g. .podverse.fm or .beta.podverse.fm
+  COOKIE_DOMAIN: ".example.com"  # Override in environment kustomization.yaml
 
   # Web App TODO: Update these to your actual web app domain and protocol
   WEB_PROTOCOL: "http"
@@ -74,7 +74,7 @@ data:
   ### not the internal Docker service network or private IP addresses.
 
   WEBSITE_PROTOCOL: "https"                         # TODO: http or https
-  WEBSITE_DOMAIN: "api-alpha-podverse.k.ser.ink"    # TODO: your public API domain
+  WEBSITE_DOMAIN: "api.example.com"                 # Override in environment kustomization.yaml
 
   #####
   ##### Email template

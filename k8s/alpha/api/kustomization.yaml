@@ -24,7 +24,16 @@ labels:
     # so the Service correctly finds the Pods.
     includeSelectors: true
 
-# 3. Image Variables
+# 3. ConfigMap overrides for alpha environment
+configMapGenerator:
+  - name: podverse-api-config
+    behavior: merge
+    literals:
+      - API_ALLOWED_CORS_ORIGINS=http://podverse-web:3000,https://api-alpha-podverse.k.ser.ink,https://alpha-podverse.k.ser.ink,https://k.ser.ink
+      - COOKIE_DOMAIN=.k.ser.ink
+      - WEBSITE_DOMAIN=api-alpha-podverse.k.ser.ink
+
+# 4. Image Variables
 # We define the specific version here.
 images:
   - name: ghcr.io/podverse/podverse-api/podverse-api
