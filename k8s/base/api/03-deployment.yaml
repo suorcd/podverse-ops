@@ -14,7 +14,7 @@ metadata:
     argocd.argoproj.io/managed-by: "argocd"
     argocd.argoproj.io/compare-options: "IgnoreExtraneous"
     # This is the endpoint that will show up as a clickable link in ArgoCD UI
-    link.argocd.argoproj.io/external-link: https://api-alpha-podverse.k.ser.ink/
+    link.argocd.argoproj.io/external-link: https://api.example.com/  # Override in environment overlay
 spec:
   # replicas: 1
   selector:

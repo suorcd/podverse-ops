@@ -33,6 +33,11 @@ configMapGenerator:
       - COOKIE_DOMAIN=.k.ser.ink
       - WEBSITE_DOMAIN=api-alpha-podverse.k.ser.ink
 
+patchesStrategicMerge:
+  - deployment-link-patch.yaml
+      - COOKIE_DOMAIN=.k.ser.ink
+      - WEBSITE_DOMAIN=api-alpha-podverse.k.ser.ink
+
 # 4. Image Variables
 # We define the specific version here.
 images:

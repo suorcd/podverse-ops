@@ -29,13 +29,13 @@ spec:
   # You do NOT need to create it manually.
   tls:
   - hosts:
-    - api-alpha-podverse.k.ser.ink
-    - alpha-podverse.k.ser.ink
+    - api.example.com
+    - web.example.com
     secretName: podverse-tls-cert
 
   rules:
   # Rule 1: API Subdomain
-  - host: api-alpha-podverse.k.ser.ink
+  - host: api.example.com  # Override in environment overlay
     http:
       paths:
       - path: /
@@ -47,7 +47,7 @@ spec:
               number: 1234
 
   # Rule 2: Web (Frontend) Domain
-  - host: alpha-podverse.k.ser.ink
+  - host: web.example.com  # Override in environment overlay
     http:
       paths:
       - path: /

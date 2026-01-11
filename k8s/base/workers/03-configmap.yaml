@@ -62,7 +62,7 @@ data:
   ### not the internal Docker service network or private IP addresses.
   ### These are used by some services, e.g. Firebase Cloud Messaging, Unified Push.
   WEB_PROTOCOL: "https"
-  WEB_DOMAIN: "alpha-podverse.k.ser.ink"  # TODO: your public web app domain
+  WEB_DOMAIN: "web.example.com"  # Override in environment kustomization.yaml
   WEB_ICON_IMAGE_PATH: "/favicon/web-app-manifest-192x192.png"
 
   #####

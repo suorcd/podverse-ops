@@ -18,6 +18,12 @@ images:
   - name: ghcr.io/podverse/podverse-workers/podverse-workers
     newTag: "5.1.23-alpha.0"
 
+configMapGenerator:
+  - name: podverse-workers-config
+    behavior: merge
+    literals:
+      - WEB_DOMAIN=alpha-podverse.k.ser.ink
+
 labels:
   - pairs:
       app: podverse-workers

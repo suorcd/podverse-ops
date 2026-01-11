@@ -10,7 +10,7 @@ metadata:
     argocd.argoproj.io/managed-by: "argocd"
     argocd.argoproj.io/compare-options: "IgnoreExtraneous"
     # This is the endpoint that will show up as a clickable link in ArgoCD UI
-    link.argocd.argoproj.io/external-link: https://alpha-podverse.k.ser.ink/
+    link.argocd.argoproj.io/external-link: https://web.example.com/  # Override in environment overlay
 spec:
   progressDeadlineSeconds: 600
   # replicas: 2

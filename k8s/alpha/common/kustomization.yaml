@@ -10,6 +10,9 @@ resources:
   - ../../base/common/01-ingress.yaml
   - ../../base/common/02-tls-options.yaml
 
+patchesStrategicMerge:
+  - ingress-hosts-patch.yaml
+
 # Updated from commonLabels to labels
 labels:
   - pairs:

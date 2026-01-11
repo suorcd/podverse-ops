@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: podverse-ingress
+spec:
+  tls:
+    - secretName: podverse-tls-cert
+      hosts:
+        - api-alpha-podverse.k.ser.ink
+        - alpha-podverse.k.ser.ink
+  rules:
+    - host: api-alpha-podverse.k.ser.ink
+    - host: alpha-podverse.k.ser.ink
