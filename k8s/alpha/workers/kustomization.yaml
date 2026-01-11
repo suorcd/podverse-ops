@@ -31,5 +31,5 @@ labels:
     # This ensures the labels are also applied to the selectors,
     # so the Service correctly finds the Pods.
     includeSelectors: true
-#patchesStrategicMerge:
-#  - log-level-debug.yaml
+patchesStrategicMerge:
+  - log-level-debug.yaml
