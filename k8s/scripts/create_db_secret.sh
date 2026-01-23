@@ -131,12 +131,14 @@ kubectl create secret generic "${SECRET_NAME}" \
   --from-literal=DB_DATABASE="${POSTGRES_DB}" \
   --from-literal=POSTGRES_DB="${POSTGRES_DB}" \
   --from-literal=POSTGRES_USER="${POSTGRES_USER}" \
-  --from-literal=POSTGRES_READ_USER="${POSTGRES_READ_USER}" \
-  --from-literal=POSTGRES_READ_WRITE_USER="${POSTGRES_READ_WRITE_USER}" \
   --from-literal=POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+  --from-literal=POSTGRES_READ_USER="${POSTGRES_READ_USER}" \
   --from-literal=POSTGRES_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
+  --from-literal=POSTGRES_READ_WRITE_USER="${POSTGRES_READ_WRITE_USER}" \
   --from-literal=POSTGRES_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
+  --from-literal=DB_READ_USERNAME="${POSTGRES_READ_USER}" \
   --from-literal=DB_READ_PASSWORD="${POSTGRES_READ_PASSWORD}" \
+  --from-literal=DB_READ_WRITE_USERNAME="${POSTGRES_READ_WRITE_USER}" \
   --from-literal=DB_READ_WRITE_PASSWORD="${POSTGRES_READ_WRITE_PASSWORD}" \
   --dry-run=client -o yaml >"$TMP_FILE"
 
